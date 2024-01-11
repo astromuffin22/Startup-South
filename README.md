@@ -1,2 +1,2 @@
-# Startup-South
+# Startup
 Startup for Web Dev 260
