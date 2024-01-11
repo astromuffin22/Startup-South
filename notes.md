@@ -1,5 +1,5 @@
-<<<<<<< HEAD
-I want to learn how to push this up to the cloud through my computer
+
+Notes
 =======
 
 I need help
