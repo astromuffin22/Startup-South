@@ -27,11 +27,27 @@ Here is the page where you can open the cases and test your luck!
 
 ### Key features
 
-- Secure login over HTTPS
+- Secure [login](/Login_or_Signup) over HTTPS
+  - In the Login Screen you can
+      - view the available cases
+      - signup
+      - login
 - Once logged in player will be sent to main page
-  - ###main page
-  - 
-
+  - [main page](/Main_Screen)
+  - Player can choose to view [instruction](/Instructions), view the [cases available](/Main_Screen), or go back to [login page](/Login_or_Signup)
+  - while in the main page you can
+    - View the top player pulls
+    - See available cases
+    - Look at total number of cases opened world wide
+- If choosing to go to the [instructions](/Instructions) page
+  - you can see the simple instructions to the website and how to play
+- If choosing to open a case you will be brought to a different [tab or pop-up](/Case_Opening) on your screen
+  - then you will see your case spinning and landing on your given item
+  - you also have a choice to spin again
+  - exit to leave
+- This will all be stored in a database where a players profile is stored and will be able to keep the tracked data
+- more to come
+  
 ### Technologies
 
 I am going to use the required technologies in the following ways.
