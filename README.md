@@ -11,7 +11,7 @@ Welcome to Case Central! The ultimate destination for thrilling luck based enter
 
 ### Design
 Here is the login page where you can login and see the current available cases!
-![Login/Signup Page](Loginpt2)
+![Login/Signup Page](Login_or_Signup)
 
 Here is the main page where you can see the top players around the world, total cases opend, and where you can choose which case you would like to open!
 
