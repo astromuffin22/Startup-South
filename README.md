@@ -52,8 +52,8 @@ Here is the page where you can open the cases and test your luck!
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - 
-- **CSS** - 
+- **HTML** - Uses correct HTML structure for application. Four HTML pages. One for login/Signup, Instructions, Main Page, and one for Case Opening. Hyperlinks to choice artifact.
+- **CSS** - WIll
 - **JavaScript** - 
 - **Service** - Backend service with endpoints for:
   - login
