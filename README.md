@@ -19,7 +19,7 @@ Here is the main page where you can see the top players around the world, total 
 
 Here is where you can find the instruction for how to use the website!
 
-![Instruction Page]()
+![Instruction Page](Instructions)
 
 Here is the page where you can open the cases and test your luck!
 
