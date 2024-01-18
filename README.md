@@ -11,37 +11,37 @@ Welcome to Case Central! The ultimate destination for thrilling luck based enter
 
 ### Design
 Here is the login page where you can login and see the current available cases!
-![Login/Signup Page](Login_or_Signup)
+![Login/Signup Page](Login_or_Signup.png)
 
 Here is the main page where you can see the top players around the world, total cases opened, and where you can choose which case you would like to open!
 
-![Main Page](Main_Screen)
+![Main Page](Main_Screen.png)
 
 Here is where you can find the instruction for how to use the website!
 
-![Instruction Page](Instructions)
+![Instruction Page](Instructions.png)
 
 Here is the page where you can open the cases and test your luck!
 
-![Case Opening Page](Case_Opening)
+![Case Opening Page](Case_Opening.png)
 
 ### Key features
 
-- Secure [login](/Login_or_Signup) over HTTPS
+- Secure [login](/Login_or_Signup.png) over HTTPS
   - In the Login Screen you can
       - view the available cases
       - signup
       - login
 - Once logged in player will be sent to main page
-  - [main page](/Main_Screen)
-  - Player can choose to view [instruction](/Instructions), view the [cases available](/Main_Screen), or go back to [login page](/Login_or_Signup)
+  - [main page](/Main_Screen.png)
+  - Player can choose to view [instruction](/Instructions.png), view the [cases available](/Main_Screen.png), or go back to [login page](/Login_or_Signup.png)
   - while in the main page you can
     - View the top player pulls
     - See available cases
     - Look at total number of cases opened world wide
-- If choosing to go to the [instructions](/Instructions) page
+- If choosing to go to the [instructions](/Instructions.png) page
   - you can see the simple instructions to the website and how to play
-- If choosing to open a case you will be brought to a different [tab or pop-up](/Case_Opening) on your screen
+- If choosing to open a case you will be brought to a different [tab or pop-up](/Case_Opening.png) on your screen
   - then you will see your case spinning and landing on your given item
   - you also have a choice to spin again
   - exit to leave
