@@ -23,7 +23,7 @@ Here is where you can find the instruction for how to use the website!
 
 Here is the page where you can open the cases and test your luck!
 
-![Case Opening Page]()
+![Case Opening Page](Case_Opening)
 
 ### Key features
 
