@@ -36,7 +36,7 @@ Here is the page where you can open the cases and test your luck!
   - [main page](/Main_Screen.png)
   - Player can choose to view [instruction](/Instructions.png), view the [cases available](/Main_Screen.png), or go back to [login page](/Login_or_Signup.png)
   - while in the main page you can
-    - View the top player pulls
+    - View the top player pulls (top 100)
     - See available cases
     - Look at total number of cases opened world wide
 - If choosing to go to the [instructions](/Instructions.png) page
@@ -53,14 +53,14 @@ Here is the page where you can open the cases and test your luck!
 I am going to use the required technologies in the following ways.
 
 - **HTML** - Uses correct HTML structure for application. Four HTML pages. One for login/Signup, Instructions, Main Page, and one for Case Opening. Hyperlinks to choice artifact.
-- **CSS** - WIll
-- **JavaScript** - 
+- **CSS** - Will be asthetic coloring and pixle art type of creation with proper white spacing and different font
+- **JavaScript** - Provides login, choice display, applying case opeings, display other users openes, backend endpoint calls.
 - **Service** - Backend service with endpoints for:
-  - login
-  - 
-  - 
-  - 
-- **DB/Login** - 
-- **WebSocket** - 
-- **React** - 
+  - login/signup
+  - Retreiving player data
+  - Finding other player pulls
+  - updating scoreboards
+- **DB/Login** - Store users, Cases that they own in database. Register and login users. Credentials securely stored in database.
+- **WebSocket** - As new rarities are opened, best will be displayed in top 100
+- **React** - Application ported to use the React web framework.
 
