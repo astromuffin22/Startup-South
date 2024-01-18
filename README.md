@@ -27,7 +27,10 @@ Here is the page where you can open the cases and test your luck!
 
 ### Key features
 
-- 
+- Secure login over HTTPS
+- Once logged in player will be sent to main page
+  - ###main page
+  - 
 
 ### Technologies
 
