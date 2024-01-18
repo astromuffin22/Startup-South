@@ -15,7 +15,7 @@ Here is the login page where you can login and see the current available cases!
 
 Here is the main page where you can see the top players around the world, total cases opend, and where you can choose which case you would like to open!
 
-![Main Page]()
+![Main Page](Main_Screen)
 
 Here is where you can find the instruction for how to use the website!
 
