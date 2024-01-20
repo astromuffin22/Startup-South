@@ -18,3 +18,6 @@ Notes
     - git status - Checks the balance between Git and term/VS Code
 
     - git config pull.rebase false - Fixes the imbalances
+
+- I now have created a website with the Permanant ip 54.157.194.120
+- I now have created a website with a domain name called http://casecentral.click
