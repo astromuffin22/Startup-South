@@ -21,7 +21,7 @@ Here is where you can find the instruction for how to use the website!
 
 ![Instruction Page](Instructions.png)
 
-Here is the page where you can open the cases and test your luck!
+Here is the pop up where you can open the cases and test your luck!
 
 ![Case Opening Page](Case_Opening.png)
 
@@ -68,10 +68,11 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I built out the structure of my application using HTML.
 
-- **HTML pages** - Two HTML page that represent the ability to login and vote.
-- **Links** - The login page automatically links to the voter page. The voter page contains links for every voting choice.
-- **Text** - Each of the voting choices is represented by a textual description.
-- **Images** - I couldn't figure out how to include an image and so I didn't do this.
-- **DB/Login** - Input box and submit button for login. The voting choices represent data pulled from the database.
-- **WebSocket** - The count of voting results represent the tally of realtime votes.
+- **HTML pages** - Three HTML page that represent the ability to login/signup, see leaderboard/cases, and read Instructions.✅
+- **Links** - The login page automatically links to the main page where you can navigate to the Login, Main, and Instruction pages.✅
+- **Text** - Text to login, Text to guide around the main page to cases, leaderboards and counter, text for instructions.✅
+- **Third Party Serivce** - On instructions page, Joke API representation.✅
+- **Images** - Imiges including, logo on every page, the different cases, and Joke image.✅
+- **DB/Login** - Database for storing login info and placing it on the main page, as well as storing rarest pet pulled.✅
+- **DB/WebSocket** - The real time change of the rarest pet leaderboard and using the DB to find and use rarest pets.✅
 
