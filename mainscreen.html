@@ -10,24 +10,41 @@
 <body>
     <header>
         <h1> Case Central <sup>&reg;</sup></h1>
-        <div id="picture" class="picture-box"><img width="150px" length="150px" src="Case Central-logos.jpeg" alt="random" /></div>
+        <div id="picture" class="picture-box"><img width="150" length="150" src="Case Central-logos.jpeg" alt="random" /></div>
         <hr />
-    <nav>
-
-        <menu>
-            <h1>Welcome to Case Central!</h1>
-            <li><a href= "index.html" >Login</a> </li>
-            <li><a href= "mainscreen.html" >Main Page</a> </li>
-            <li><a href= "instructions.html" >Instructions</a> </li>
-        </menu>
-    </nav>
-
-</header>
-
-<main>
-    <hr />
-    <p>Login or Signup to play!</p>
-
+        <nav>
+            <menu>
+                <h1>Welcome to Case Central!</h1>
+                <ul>
+                    <li><a href= "index.html" >Login</a> </li>
+                    <li><a href= "mainscreen.html" >Main Page</a> </li>
+                    <li><a href= "instructions.html" >Instructions</a> </li>
+                </ul>
+            </menu>
+        </nav>
+    </header>
+    <main>
+        <hr />
+        <p>Current Available Cases!</p>
+        <div class="players">
+            Player:
+            <span class="player-name">Mystery player</span>
+          </div>
+          <ul class="notification">
+            <li class="player-name">Tim started a new game</li>
+            <li class="player-name">Ada started a new game</li>
+            <li class="player-name">Tim scored 337</li>
+          </ul>
     
+          <!-- More formatting with old style HTML -->
+          <br />
+    
+          <div>
+            <label for="count">Score</label>
+            <input type="text" id="count" value="--" readonly />
+          </div>
+    
+          <br />
+    </main>
 </body>
 </html>
