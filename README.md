@@ -74,5 +74,5 @@ For this deliverable I built out the structure of my application using HTML.
 - **Third Party Serivce** - On instructions page, Joke API representation.✅
 - **Images** - Imiges including, logo on every page, the different cases, and Joke image.✅
 - **DB/Login** - Database for storing login info and placing it on the main page, as well as storing rarest pet pulled.✅
-- **DB/WebSocket** - The real time change of the rarest pet leaderboard and using the DB to find and use rarest pets.✅
+- **DB/WebSocket** - The real time change of the rarest pet leaderboard and using the DB to find and use rarest pets. Also including a real time counter for total cases opened world wide.✅
 
