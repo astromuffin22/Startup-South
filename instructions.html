@@ -38,6 +38,13 @@
         <div id="picture" class="picture-box">
         <img width="150px" length="150px" src="https://miro.medium.com/v2/resize:fit:1400/1*8R-XmPn8hEjZ2Hil84D4JA.png" alt="random" /></div>
         <p>Q: How many programmers does it take to screw in a light bulb? A: None. It's a hardware problem.
+            <br />
+            <img id="randomdog" width="300" height="300" alt="random dog">
+            <script>
+                fetch('https://dog.ceo/api/breeds/image/random')
+                .then(response => response.json())
+                .then(data => randomdog.src = data.message);
+            </script>
             <footer>
                 <hr />
                 <span class="text-reset">Author Name(s)</span>
