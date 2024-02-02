@@ -11,11 +11,12 @@
     <header>
         <h1> Case Central <sup>&reg;</sup></h1>
         <div id="picture" class="picture-box">
-        <img width="150px" length="150px" src="Case Central-logos.jpeg" alt="random" /></div>
+            <img width="150" length="150" src="Case Central-logos.jpeg" alt="random" />
+        </div>
         <hr />
         <nav>
+            <h1>Welcome to Case Central's Instructions!</h1>
             <menu>
-                <h1>Welcome to Case Central's Instructions!</h1>
                 <li><a href= "index.html" >Login</a> </li>
                 <li><a href= "mainscreen.html" >Main Page</a> </li>
                 <li><a href= "instructions.html" >Instructions</a> </li>
@@ -36,24 +37,24 @@
         </p>
         <hr />
         <div id="picture" class="picture-box">
-        <img width="150px" length="150px" src="https://miro.medium.com/v2/resize:fit:1400/1*8R-XmPn8hEjZ2Hil84D4JA.png" alt="random" /></div>
-        <p>Q: How many programmers does it take to screw in a light bulb? A: None. It's a hardware problem.
+            <img width="150" length="150" src="https://miro.medium.com/v2/resize:fit:1400/1*8R-XmPn8hEjZ2Hil84D4JA.png" alt="random" />
+        </div>
+        <p>Q: How many programmers does it take to screw in a light bulb? A: None. It's a hardware problem.</p>
+        <br />
+        <img id="randomdog" width="300" height="300" alt="random dog">
+        <footer>
+            <hr />
+            <span class="text-reset">Author Name(s)</span>
+            - Spencer South
             <br />
-            <img id="randomdog" width="300" height="300" alt="random dog">
-            <script>
-                fetch('https://dog.ceo/api/breeds/image/random')
-                .then(response => response.json())
-                .then(data => randomdog.src = data.message);
-            </script>
-            <footer>
-                <hr />
-                <span class="text-reset">Author Name(s)</span>
-                - Spencer South
-                <br />
-                <span class="text-reset">Git Hub Repo! - </span>
-                <a href="https://github.com/astromuffin22/startup.git">GitHub</a>
-            </footer>
-        </p>
+            <span class="text-reset">Git Hub Repo! - </span>
+            <a href="https://github.com/astromuffin22/startup.git">GitHub</a>
+        </footer>
+        <script>
+            fetch('https://dog.ceo/api/breeds/image/random')
+            .then(response => response.json())
+            .then(data => randomdog.src = data.message);
+        </script>
     </main>
 </body>
 </html>
