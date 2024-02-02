@@ -68,11 +68,11 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I built out the structure of my application using HTML.
 
-- **HTML pages** - Three HTML page that represent the ability to login/signup, see leaderboard/cases, and read Instructions.✅
-- **Links** - The login page automatically links to the main page where you can navigate to the Login, Main, and Instruction pages.✅
-- **Text** - Text to login, Text to guide around the main page to cases, leaderboards and counter, text for instructions.✅
-- **Third Party Serivce** - On instructions page, Joke API representation.✅
-- **Images** - Imiges including, logo on every page, the different cases, and Joke image.✅
+- **HTML pages** - Three HTML pages and a pop-up page that represent the ability to login/signup, see leaderboard/cases, read Instructions, and shows the spinning animation that will occur for the pop up.✅
+- **Links** - The login page automatically links to the main page where you can navigate to the Login, Main, and Instruction pages and each case clicked will have a pop up to spin.✅
+- **Text** - Text to login, Text to guide around the main page to cases, leaderboards and counter, text for instructions, text for pop up.✅
+- **Third Party Serivce** - On instructions page, Joke API representation, and dog picture api (figuring out which one to use).✅
+- **Images** - Imiges including, logo on every page, the different cases, pop-up representation of inside a case, and Joke image.✅
 - **DB/Login** - Database for storing login info and placing it on the main page, as well as storing rarest pet pulled.✅
 - **DB/WebSocket** - The real time change of the rarest pet leaderboard and using the DB to find and use rarest pets. Also including a real time counter for total cases opened world wide.✅
 
