@@ -76,3 +76,13 @@ For this deliverable I built out the structure of my application using HTML.
 - **DB/Login** - Database for storing login info and placing it on the main page, as well as storing rarest pet pulled.✅
 - **DB/WebSocket** - The real time change of the rarest pet leaderboard and using the DB to find and use rarest pets. Also including a real time counter for total cases opened world wide.✅
 
+## CSS deliverable
+
+For this deliverable I properly styled the application into its final appearance.
+
+- **Header, footer, and main content body**✅
+- **Navigation elements** - I added buttons which you can tell by outlined borders, and finalized the login/signup page with it being able to be more visable, also I created a animation of the pop up popping a little bit showing what the JS will do, and allowed buttons to change colors while hovering✅
+- **Responsive to window resizing** - I used flex to make my application look great on all devices✅
+- **Application elements** - I used good colors that go well with each other in my opinion and also used linear gradient to have a more appeasing look while also changing the cover of buttons when hovering.✅
+- **Application text content** - I used consitant fonts and sizes✅
+- **Application images** - Made the logo and cases a circle, had the dog api placed pleasently in the middle of the screen and with rounded edges, and tried to make the pop up dogs more appeasing to look at.✅
