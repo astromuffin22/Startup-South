@@ -1,4 +1,9 @@
-body, h1, h2, p, form {
+/* Reset styles */
+body {
+    background: #2c3e50;
+}
+
+body, h1, h2, p, form, main, section {
     margin: 0;
     padding: 0;
 }
@@ -7,10 +12,22 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
+/* Header styles */
 header {
-    background-color: #1b1b1b; /* Dark gray background */
+    background-color: #1b1b1b;
     padding: 10px 20px;
     box-shadow: 0 2px 4px rgba(217, 172, 7, 0.1);
+}
+
+.username {
+    background-color: #2c3e50;
+    border-radius: 8px;
+    margin: 0;
+    padding: 16px 24px;
+    color: #dbdb34;
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    text-align: center;
 }
 
 .title-logo {
@@ -27,7 +44,7 @@ h1 {
     padding: 10px;
     border-radius: 8px;
     color: #dbdb34;
-    background-color: #2c3e50; /* Dark blue background */
+    background-color: #2c3e50;
 }
 
 .picture-box img {
@@ -38,21 +55,14 @@ h1 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.title-logo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
 nav {
     color: #fff;
     font-size: 18px;
 }
 
 h1 {
-    background-color: #2c3e50; /* Dark blue background */
-    padding: 10px;
+    background-color: #2c3e50;
+    padding: 16px 24px;
     border-radius: 8px;
 }
 
@@ -68,7 +78,7 @@ menu {
 #mainpage-btn,
 #instructions-btn {
     padding: 12px;
-    background-color: #ff4500; /* Orange background */
+    background-color: #ff4500;
     color: #ecf0f1;
     border: none;
     border-radius: 4px;
@@ -77,18 +87,10 @@ menu {
     margin-right: 10px;
 }
 
-#login-btn:hover {
-    color: #ff4500; /* Orange text */
-    background-color: #333333;
-}
-
-#mainpage-btn:hover {
-    color: #ff4500; /* Orange text */
-    background-color: #333333;
-}
-
+#login-btn:hover,
+#mainpage-btn:hover,
 #instructions-btn:hover {
-    color: #ff4500; /* Orange text */
+    color: #ff4500;
     background-color: #333333;
 }
 
@@ -103,7 +105,6 @@ a {
 a:hover {
     color: #ecf0f1;
 }
-
 main {
     background: linear-gradient(to bottom, #4caf50, #2980b9); /* Gradient from green to blue */
     padding: 20px;
