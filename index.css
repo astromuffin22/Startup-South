@@ -27,7 +27,6 @@ h1 {
     font-size: 24px;
     margin: 0;
     background-color: #2c3e50 ;
-    background-size: 50% 100%;
     padding: 10px;
     border-radius: 8px;
     color: white;
@@ -59,15 +58,16 @@ nav {
 }
 h1 {
     background-color: #2c3e50 ;
-    background-size: 50% 100%;
     padding: 10px;
     border-radius: 8px;
 }
 
 menu {
     display: flex;
-    justify-content: space-between;
-    text-align: center;
+    align-items: center;
+    justify-content: center; /* Added this line to center horizontally */
+    gap: 10px; /* Adjusted gap value */
+    padding: 0;
 }
 
 a {
@@ -76,7 +76,6 @@ a {
     transition: color 0.3s;
     border-radius: 8px;
     background-color: #2c3e50 ;
-    background-size: 50% 100%;
     padding: 10px;
 }
 
@@ -175,6 +174,7 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+
 }
 
 a {
