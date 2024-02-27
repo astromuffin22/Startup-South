@@ -147,6 +147,11 @@ main div {
     color: #dbdb34;
 }
 
+.player-name {
+    color: black;
+}
+
+
 .players,
 .pets,
 h2,
