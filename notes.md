@@ -23,3 +23,5 @@ Notes
 - I now have created a website with a domain name called http://casecentral.click
 - I now have made my website scure using caddy and sudo to save and make it working https://casecentral.click
 - I understand now the importance of good HTML or you CSS coding will suck and you will have a hard time ahah - https://casecentral.click
+- By putting the JS cloning onto my startup I was able to learn more about how JS works
+- 
