@@ -233,6 +233,46 @@ section {
     justify-content: center;
 }
 
+#popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    z-index: 999;
+}
+
+.POP-UP-SLIDER {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.POP-UP-SLIDER img {
+    max-width: 150px;
+    max-height: 150px;
+}
+
+#indicator {
+    margin: 10px;
+    font-size: 20px;
+}
+
+.close-popup {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 
 .cases {
     margin-bottom: 20px;
