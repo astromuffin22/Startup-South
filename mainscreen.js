@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             setTimeout(() => {
                 clearInterval(spinIntervalId);
-                addPlayerToScoreboard('NewPlayer', 'New Pet - 0.001%');
+                addPlayerToScoreboard(storedUser.name, 'New Pet - 0.001%');
             }, 5000);
         }
 
