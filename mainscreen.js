@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let userLatestPet = null;
 
     const petDatabase = [
-        { name: 'Yellow Teddy Bear', chance: 0.1 },
-        { name: 'Cool Teddy Bear', chance: 0.05 },
-        { name: 'Dragon', chance: 0.001 }
+        { name: 'Yellow Teddy Bear', chance: 0.90 },
+        { name: 'Cool Teddy Bear', chance: 0.08 },
+        { name: 'Dragon', chance: 0.02 }
     ];
 
     let pulledPets = [];
@@ -40,12 +40,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function closePopup() {
-            // Only close the popup if it's a user-initiated spin
             if (isUserSpin) {
                 popup.style.display = 'none';
-                isUserSpin = false; // Reset the flag after user-initiated spin is complete
+                isUserSpin = false;
             }
-            // Add additional logic here if needed for non-user spins
         }
 
         function addPlayerToScoreboard(playerName, pet) {
@@ -96,78 +94,33 @@ document.addEventListener('DOMContentLoaded', function () {
                 const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
 
                 addPlayerToScoreboard(storedUser.name, pulledPet.name);
-
-                // The popup will not close automatically here
-
-                // Close the popup only for user-initiated spin
-                // closePopup();
-
-                // isUserSpin = false;
             }, 5000);
         }
 
         function simulateOtherPlayersOpenings() {
-            setTimeout(function () {
-                addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
-            }, 1000);
+            const players = [
+                { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
+                { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
+                { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
+                { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
+                { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
+                { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
+                { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
+                { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
+                { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
+            ];
 
-            setTimeout(function () {
-                addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
-            }, 2000);
-
-            setTimeout(function () {
-                addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
-            }, 3000);
-
-            setTimeout(function () {
-                addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
-            }, 4000);
-
-            setTimeout(function () {
-                addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
-            }, 5000);
-
-            setTimeout(function () {
-                addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
-            }, 6000);
-
-            setTimeout(function () {
-                addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
-            }, 7000);
-
-            setTimeout(function () {
-                addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
-            }, 8000);
-
-            setTimeout(function () {
-                addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
-            }, 9000);
-        }
-
-        function getRandomPet() {
-            const randomNum = Math.random();
-
-            const totalWeight = petDatabase.reduce((sum, pet) => sum + (1 / pet.chance), 0);
-
-            const weightedRandom = randomNum * totalWeight;
-
-            let cumulativeWeight = 0;
-            for (const pet of petDatabase) {
-                cumulativeWeight += 1 / pet.chance;
-                if (weightedRandom <= cumulativeWeight) {
-                    return pet;
-                }
-            }
-
-            return petDatabase[petDatabase.length - 1];
+            players.forEach((player, index) => {
+                setTimeout(() => {
+                    addPlayerToScoreboard(player.name, player.pet);
+                }, index * 1000);
+            });
         }
 
         function getRandomPetFromImage(imageId) {
             const petName = document.getElementById(imageId).dataset.pet;
 
-            const pet = petDatabase.find(p => p.name === petName);
-
-            return pet || { name: 'Fallback Pet', chance: 0.001 };
+            return petDatabase.find(p => p.name === petName) || { name: 'Fallback Pet', chance: 0.001 };
         }
 
         function displayMostRecentPet() {
