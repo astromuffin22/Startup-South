@@ -86,3 +86,12 @@ For this deliverable I properly styled the application into its final appearance
 - **Application elements** - I used good colors that go well with each other in my opinion and also used linear gradient to have a more appeasing look while also changing the cover of buttons when hovering.✅
 - **Application text content** - I used consitant fonts and sizes✅
 - **Application images** - Made the logo and cases a circle, had the dog api placed pleasently in the middle of the screen and with rounded edges, and tried to make the pop up dogs more appeasing to look at.✅
+
+## JavaScript deliverable
+
+For this deliverable I implemented by JavaScript so that the application works for a single user. I also added placeholders for future technology.
+
+- **login** - When you press the login button or the signup button it will take you to the main page.✅
+- **database** - The login page takes user input, creates a new user object, stores it in localStorage, and alerts the user. The main page simulates spins and updates the DOM based on simulated data. The instructions page fetches a random dog image from an external API. Aswell shows the total number of cases spun and adds to the counter for each spin.✅
+- **WebSocket** - The simulation of other players opening cases and being placed on the resent cases opened leaderboard in the code does serves as a simulation of websockets. Which will eventually allow for real-time updates from the server, and the simulation of other players opening cases when websocketing is implemented. This will also update the casees opened counted real time from any player to show the total number of cases ever opened.✅
+- **application logic** -  The interaction logic is when you click on the case, a pop up will occure spinning different animals till you land on one at random with chance, whch then will be displayed on the screen of which pet you pulled and aswell added onto the leaderboard of recent cases opened.✅
