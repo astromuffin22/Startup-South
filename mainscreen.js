@@ -3,11 +3,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let notificationList;
     let totalCasesOpened = 1437;
+    let isUserSpin = false;
+    let userLatestPet = null;
+
+    const petDatabase = [
+        { name: 'Yellow Teddy Bear', chance: 0.1 },
+        { name: 'Cool Teddy Bear', chance: 0.05 },
+        { name: 'Dragon', chance: 0.001 }
+    ];
+
+    let pulledPets = [];
 
     if (storedUser) {
         const usernameHeader = document.querySelector('.username');
         const yourUsernameSpan = document.querySelector('.users-pet');
         notificationList = document.querySelector('.notification');
+        const petsContainer = document.querySelector('.pets');
 
         const mainScreenImages = document.querySelectorAll('.main-screen .picture-box img');
         const popup = document.getElementById('popup');
@@ -29,7 +40,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function closePopup() {
-            popup.style.display = 'none';
+            // Only close the popup if it's a user-initiated spin
+            if (isUserSpin) {
+                popup.style.display = 'none';
+                isUserSpin = false; // Reset the flag after user-initiated spin is complete
+            }
+            // Add additional logic here if needed for non-user spins
         }
 
         function addPlayerToScoreboard(playerName, pet) {
@@ -37,9 +53,15 @@ document.addEventListener('DOMContentLoaded', function () {
             newNotification.className = 'player-name';
             newNotification.textContent = `${playerName} pulled ${pet}`;
             notificationList.appendChild(newNotification);
-        
-            // Increment the counter immediately
+
             updateCounter();
+
+            pulledPets.push(pet);
+
+            if (isUserSpin) {
+                userLatestPet = pet;
+                displayMostRecentPet();
+            }
         }
 
         function updateCounter() {
@@ -47,47 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
             counterSpan.textContent = `: ${totalCasesOpened}`;
         }
 
-        setTimeout(function () {
-            addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
-        }, 1000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
-        }, 2000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
-        }, 3000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
-        }, 4000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
-        }, 5000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
-        }, 6000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
-        }, 7000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
-        }, 8000);
-
-        setTimeout(function () {
-            addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
-        }, 9000);
-
         function updateIndicator(index) {
             indicator.textContent = index + 1;
         }
 
         function simulateSpin() {
+            isUserSpin = true;
             openPopup();
 
             const spinningInterval = 500;
@@ -105,9 +92,89 @@ document.addEventListener('DOMContentLoaded', function () {
 
             setTimeout(() => {
                 clearInterval(spinIntervalId);
-                addPlayerToScoreboard(storedUser.name, 'New Pet - 0.001%');
-                updateCounter();
+
+                const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
+
+                addPlayerToScoreboard(storedUser.name, pulledPet.name);
+
+                // The popup will not close automatically here
+
+                // Close the popup only for user-initiated spin
+                // closePopup();
+
+                // isUserSpin = false;
             }, 5000);
+        }
+
+        function simulateOtherPlayersOpenings() {
+            setTimeout(function () {
+                addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
+            }, 1000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
+            }, 2000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
+            }, 3000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
+            }, 4000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
+            }, 5000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
+            }, 6000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Bob', 'Yellow Teddy Bear - 0.01%');
+            }, 7000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Lenicha_likes_you', 'Lame Teddy Bear - 15%');
+            }, 8000);
+
+            setTimeout(function () {
+                addPlayerToScoreboard('Your_not_cool', 'Cool Teddy Bear - 5%');
+            }, 9000);
+        }
+
+        function getRandomPet() {
+            const randomNum = Math.random();
+
+            const totalWeight = petDatabase.reduce((sum, pet) => sum + (1 / pet.chance), 0);
+
+            const weightedRandom = randomNum * totalWeight;
+
+            let cumulativeWeight = 0;
+            for (const pet of petDatabase) {
+                cumulativeWeight += 1 / pet.chance;
+                if (weightedRandom <= cumulativeWeight) {
+                    return pet;
+                }
+            }
+
+            return petDatabase[petDatabase.length - 1];
+        }
+
+        function getRandomPetFromImage(imageId) {
+            const petName = document.getElementById(imageId).dataset.pet;
+
+            const pet = petDatabase.find(p => p.name === petName);
+
+            return pet || { name: 'Fallback Pet', chance: 0.001 };
+        }
+
+        function displayMostRecentPet() {
+            if (petsContainer && userLatestPet) {
+                const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
+                petsContainer.innerHTML = `<span class="users-pet">${storedUser.name} - ${userLatestPet} - ${(chance * 100).toFixed(3)}%</span>`;
+            }
         }
 
         mainScreenImages.forEach((image) => {
@@ -119,5 +186,7 @@ document.addEventListener('DOMContentLoaded', function () {
         closePopupButton.addEventListener('click', () => {
             closePopup();
         });
+
+        simulateOtherPlayersOpenings();
     }
 });
