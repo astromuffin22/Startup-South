@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
     let notificationList;
+    let totalCasesOpened = 1437;
 
     if (storedUser) {
         const usernameHeader = document.querySelector('.username');
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const popupImages = document.querySelectorAll('#popup .picture-box img');
         const indicator = document.getElementById('indicator');
         const closePopupButton = document.getElementById('closePopupButton');
+        const counterSpan = document.getElementById('count');
 
         if (usernameHeader) {
             usernameHeader.textContent = storedUser.name;
@@ -35,6 +37,14 @@ document.addEventListener('DOMContentLoaded', function () {
             newNotification.className = 'player-name';
             newNotification.textContent = `${playerName} pulled ${pet}`;
             notificationList.appendChild(newNotification);
+        
+            // Increment the counter immediately
+            updateCounter();
+        }
+
+        function updateCounter() {
+            totalCasesOpened++;
+            counterSpan.textContent = `: ${totalCasesOpened}`;
         }
 
         setTimeout(function () {
@@ -96,6 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => {
                 clearInterval(spinIntervalId);
                 addPlayerToScoreboard(storedUser.name, 'New Pet - 0.001%');
+                updateCounter();
             }, 5000);
         }
 
@@ -109,5 +120,4 @@ document.addEventListener('DOMContentLoaded', function () {
             closePopup();
         });
     }
-
 });
