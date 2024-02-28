@@ -25,4 +25,4 @@ Notes
 - I understand now the importance of good HTML or you CSS coding will suck and you will have a hard time ahah - https://casecentral.click
 - By putting the JS cloning onto my startup I was able to learn more about how JS works
 - I learned how to make a pop up and store usernames and display it in various ways
-- 
+- I learned a lot about pop up windows and the way to create that through Java Script!
