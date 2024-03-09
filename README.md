@@ -95,3 +95,13 @@ For this deliverable I implemented by JavaScript so that the application works f
 - **database** - The login page takes user input, creates a new user object, stores it in localStorage, and alerts the user. The main page simulates spins and updates the DOM based on simulated data. The instructions page fetches a random dog image from an external API. Aswell shows the total number of cases spun and adds to the counter for each spin.✅
 - **WebSocket** - The simulation of other players opening cases and being placed on the resent cases opened leaderboard in the code does serves as a simulation of websockets. Which will eventually allow for real-time updates from the server, and the simulation of other players opening cases when websocketing is implemented. This will also update the casees opened counted real time from any player to show the total number of cases ever opened.✅
 - **application logic** -  The interaction logic is when you click on the case, a pop up will occure spinning different animals till you land on one at random with chance, whch then will be displayed on the screen of which pet you pulled and aswell added onto the leaderboard of recent cases opened.✅
+
+## Service deliverable
+
+For this deliverable I added backend endpoints that receives votes and returns the voting totals. (examples)
+
+- **Node.js/Express HTTP service** - done! (examples what to say)
+- **Static middleware for frontend** - done! (examples what to say)
+- **Calls to third party endpoints** - I didn't have time to implement this. 😔 (examples what to say)
+- **Backend service endpoints** - Placeholders for login that stores the current user on the server. Endpoints for voting. (examples what to say)
+- **Frontend calls service endpoints** - I did this using the fetch function. (examples what to say)
