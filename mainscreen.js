@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scores.forEach(score => {
             const listItem = document.createElement('li');
             listItem.classList.add('player-name');
-            listItem.textContent = `${score.playerName} pulled ${score.pet}`;
+            listItem.textContent = `${score.playerName} pulled ${score.pet} - ${chance}`;
             notificationList.appendChild(listItem);
         });
     }
@@ -112,24 +112,26 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 
 
-    async function simulateOtherPlayersOpenings() {
-        const players = [
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
-        ];
-    
-        await Promise.all(players.map(async (player, index) => {
-            await new Promise(resolve => setTimeout(resolve, index * 1000));
-            addPlayerToScoreboard(player.name, player.pet);
-        }));
-    }
+async function simulateOtherPlayersOpenings() {
+    const players = [
+        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
+        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
+        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
+        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
+        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
+        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
+        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
+        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
+        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
+    ];
+
+    await Promise.all(players.map(async (player, index) => {
+        await new Promise(resolve => setTimeout(resolve, index * 1000));
+        addPlayerToScoreboard(player.name, player.pet);
+        updateCounter();
+    }));
+}
+
 
     function getRandomPetFromImage(imageId) {
         const petName = document.getElementById(imageId).dataset.pet;
