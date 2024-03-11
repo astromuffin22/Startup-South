@@ -47,7 +47,6 @@ app.post('/api/addScore', (req, res) => {
 
     scores.push({ playerName, pet });
 
-    // Assuming you want to send the updated scores back to the client
     res.json({ message: 'Score added successfully!', scores });
 });
 
