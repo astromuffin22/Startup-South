@@ -2,11 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const app = express();
-const port = 3000;
+const port = 4000;
 
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(express.static('.'));
+app.use(express.static('public'));
 
 let users = [];
 let scores = [];
@@ -57,7 +57,7 @@ app.post('/api/dogImage', (req, res) => {
 });
 
 app.use((_req, res) => {
-    res.sendFile('index.html', { root: '.' });
+    res.sendFile('index.html', { root: 'public' });
 });
 
 app.listen(port, () => {
