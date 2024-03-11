@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (randomDogImage) {
         fetch('https://dog.ceo/api/breeds/image/random')
             .then(response => response.json())
-            .then(data => randomDogImage.src = data.message);
+            .then(data => {
+                // Updated to call service endpoint instead of displaying an image
+                fetch('/api/dogImage', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ imageUrl: data.message }),
+                });
+            });
     }
 });

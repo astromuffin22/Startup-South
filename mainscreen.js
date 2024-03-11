@@ -1,23 +1,19 @@
 document.addEventListener('DOMContentLoaded', function () {
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
-    let notificationList;
-    let totalCasesOpened = 1437;
-    let isUserSpin = false;
-    let userLatestPet = null;
-
-    const petDatabase = [
-        { name: 'Yellow Teddy Bear', chance: 0.90 },
-        { name: 'Cool Teddy Bear', chance: 0.08 },
-        { name: 'Dragon', chance: 0.02 }
-    ];
-
-    let pulledPets = [];
-
     if (storedUser) {
+        let totalCasesOpened = 1437;
+        let isUserSpin = false;
+        let userLatestPet = null; // Initialize to null
+
+        const petDatabase = [
+            { name: 'Yellow Teddy Bear', chance: 0.90 },
+            { name: 'Cool Teddy Bear', chance: 0.08 },
+            { name: 'Dragon', chance: 0.02 }
+        ];
+
         const usernameHeader = document.querySelector('.username');
         const yourUsernameSpan = document.querySelector('.users-pet');
-        notificationList = document.querySelector('.notification');
         const petsContainer = document.querySelector('.pets');
 
         const mainScreenImages = document.querySelectorAll('.main-screen .picture-box img');
@@ -47,19 +43,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         function addPlayerToScoreboard(playerName, pet) {
-            const newNotification = document.createElement('li');
-            newNotification.className = 'player-name';
-            newNotification.textContent = `${playerName} pulled ${pet}`;
-            notificationList.appendChild(newNotification);
-
-            updateCounter();
-
-            pulledPets.push(pet);
-
-            if (isUserSpin) {
-                userLatestPet = pet;
-                displayMostRecentPet();
-            }
+            fetch('/api/addScore', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ playerName, pet }),
+            });
         }
 
         function updateCounter() {
@@ -74,28 +64,39 @@ document.addEventListener('DOMContentLoaded', function () {
         function simulateSpin() {
             isUserSpin = true;
             openPopup();
-
+        
             const spinningInterval = 500;
             let currentImageIndex = Math.floor(Math.random() * popupImages.length);
-
+        
             const spinIntervalId = setInterval(() => {
                 popupImages.forEach((img, index) => {
                     img.style.display = index === currentImageIndex ? 'block' : 'none';
                 });
-
+        
                 updateIndicator(currentImageIndex);
-
+        
                 currentImageIndex = (currentImageIndex + 1) % popupImages.length;
             }, spinningInterval);
-
+        
             setTimeout(() => {
                 clearInterval(spinIntervalId);
-
+        
                 const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
-
+        
+                // Update userLatestPet with the pulled pet name
+                userLatestPet = pulledPet.name;
+        
+                // Call displayMostRecentPet to update the displayed pet information
+                displayMostRecentPet();
+        
+                // Update the counter
+                updateCounter();
+        
+                // Add the pulled pet to the scoreboard
                 addPlayerToScoreboard(storedUser.name, pulledPet.name);
             }, 5000);
         }
+        
 
         function simulateOtherPlayersOpenings() {
             const players = [
