@@ -98,10 +98,10 @@ For this deliverable I implemented by JavaScript so that the application works f
 
 ## Service deliverable
 
-For this deliverable I added backend endpoints that receives votes and returns the voting totals. (examples)
+For this deliverable, I incorporated backend endpoints in my code to handle registering, random dog api, and spinning cases. These endpoints receive information about user's email, random dog images, and also the spins and return the updated statistics, such as the total number of cases opened.
 
-- **Node.js/Express HTTP service** - done! (examples what to say)
-- **Static middleware for frontend** - done! (examples what to say)
-- **Calls to third party endpoints** - I didn't have time to implement this. 😔 (examples what to say)
-- **Backend service endpoints** - Placeholders for login that stores the current user on the server. Endpoints for voting. (examples what to say)
-- **Frontend calls service endpoints** - I did this using the fetch function. (examples what to say)
+- **Node.js/Express HTTP service** - The index.js file sets up an Express server, defines routes for registration, login, adding scores, and handling dog images.✅
+- **Static middleware for frontend** - The line app.use(express.static('.')); in my index.js file indicates that the frontend files (HTML, CSS, JS) will be served using the Express static middleware.✅
+- **Calls to third party endpoints** - In the instructions.js file, I'm making a call to a third-party service (https://dog.ceo/api/breeds/image/random) to fetch a random dog image.✅
+- **Backend service endpoints** - I've implemented several service endpoints in my index.js file (/api/register, /api/login, /api/addScore, and /api/dogImage) to handle user registration, login, adding scores, and receiving dog images.✅
+- **Frontend calls service endpoints** - In my login.js and mainscreen.js files, I'm making fetch requests to my service endpoints (/api/register, /api/addScore, and others) to interact with my backend.✅
