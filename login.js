@@ -10,8 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const email = emailInput.value;
 
         const newUser = { name, email };
-        
-        localStorage.setItem(email, JSON.stringify(newUser));
+
+        // Store the user in localStorage
+        localStorage.setItem('user', JSON.stringify(newUser));
 
         fetch('/api/register', {
             method: 'POST',

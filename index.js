@@ -1,11 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-
-app.use(express.static('public'));
+app.use(cookieParser());
+app.use(express.static('.'));
 
 let users = [];
 let scores = [];
@@ -16,10 +17,25 @@ app.post('/api/register', (req, res) => {
     const existingUser = users.find(u => u.email === user.email);
 
     if (existingUser) {
-        res.status(400).json({ message: 'User with this email already exists' });
+        existingUser.lastLogin = new Date();
+        
+        res.json({ message: 'Login successful!' });
     } else {
         users.push(user);
         res.json({ message: 'Registration successful!' });
+    }
+});
+
+app.post('/api/login', (req, res) => {
+    const { email, password } = req.body;
+
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        res.cookie('userEmail', user.email, { maxAge: 900000, httpOnly: true });
+        res.json({ message: 'Login successful!' });
+    } else {
+        res.status(401).json({ message: 'Invalid credentials' });
     }
 });
 
@@ -39,6 +55,10 @@ app.post('/api/dogImage', (req, res) => {
     const { imageUrl } = req.body;
 
     res.json({ message: 'Dog image URL received successfully!' });
+});
+
+app.use((_req, res) => {
+    res.sendFile('index.html', { root: '.' });
 });
 
 app.listen(port, () => {
