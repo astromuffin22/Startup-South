@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (storedUser) {
         let totalCasesOpened = 1437;
         let isUserSpin = false;
-        let userLatestPet = null; // Initialize to null
+        let userLatestPet = null;
 
         const petDatabase = [
             { name: 'Yellow Teddy Bear', chance: 0.90 },
@@ -83,16 +83,13 @@ document.addEventListener('DOMContentLoaded', function () {
         
                 const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
         
-                // Update userLatestPet with the pulled pet name
+                
                 userLatestPet = pulledPet.name;
-        
-                // Call displayMostRecentPet to update the displayed pet information
+                
                 displayMostRecentPet();
         
-                // Update the counter
                 updateCounter();
         
-                // Add the pulled pet to the scoreboard
                 addPlayerToScoreboard(storedUser.name, pulledPet.name);
             }, 5000);
         }

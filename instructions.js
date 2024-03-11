@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch('https://dog.ceo/api/breeds/image/random')
             .then(response => response.json())
             .then(data => {
-                // Updated to call service endpoint instead of displaying an image
                 fetch('/api/dogImage', {
                     method: 'POST',
                     headers: {
