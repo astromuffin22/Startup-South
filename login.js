@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const newUser = { name, email };
 
-        // Store the user in localStorage
         localStorage.setItem('user', JSON.stringify(newUser));
 
         fetch('/api/register', {

@@ -127,19 +127,15 @@ document.addEventListener('DOMContentLoaded', function () {
         closePopup();
     });
 
-    // Check if there is a stored user
     if (storedUser) {
         if (usernameHeader) {
             usernameHeader.textContent = storedUser.name;
         }
 
         if (yourUsernameSpan) {
-            // Update this line to display the user's name dynamically
             yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 0.001%`;
         }
 
-        // Load user-specific data and initialize the UI
-        // (e.g., you may want to load the user's pet history, etc.)
         simulateOtherPlayersOpenings();
     }
 });
