@@ -26,3 +26,4 @@ Notes
 - By putting the JS cloning onto my startup I was able to learn more about how JS works
 - I learned how to make a pop up and store usernames and display it in various ways
 - I learned a lot about pop up windows and the way to create that through Java Script!
+- I learned so much about the difference between JS code and acutal workable JS code with local servers
