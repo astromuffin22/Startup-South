@@ -10,16 +10,21 @@ document.addEventListener('DOMContentLoaded', function () {
         const email = emailInput.value;
 
         const newUser = { name, email };
-        localStorage.setItem('user', JSON.stringify(newUser));
+        
+        localStorage.setItem(email, JSON.stringify(newUser));
 
-        const existingUser = JSON.parse(localStorage.getItem(email));
-
-        if (existingUser) {
-            alert(`Welcome back, ${existingUser.name}!`);
-        } else {
-            alert(`Welcome, ${name}! You've been signed up.`);
-        }
-
-        window.location.href = 'mainscreen.html';
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newUser),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            window.location.href = 'mainscreen.html';
+        })
+        .catch(error => console.error('Error:', error));
     });
 });

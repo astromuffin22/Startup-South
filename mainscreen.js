@@ -83,9 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
         
                 const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
         
-                
                 userLatestPet = pulledPet.name;
-                
+        
                 displayMostRecentPet();
         
                 updateCounter();
