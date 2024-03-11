@@ -40,8 +40,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ playerName, pet }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+    
+            updateNotificationList(data.scores);
+        })
+        .catch(error => {
+            console.error('Error adding score:', error);
         });
     }
+    
+    function updateNotificationList(scores) {
+        const notificationList = document.querySelector('.notification');
+        
+        notificationList.innerHTML = '';
+    
+        scores.forEach(score => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('player-name');
+            listItem.textContent = `${score.playerName} pulled ${score.pet}`;
+            notificationList.appendChild(listItem);
+        });
+    }
+    
 
     function updateCounter() {
         totalCasesOpened++;
@@ -52,39 +75,44 @@ document.addEventListener('DOMContentLoaded', function () {
         indicator.textContent = index + 1;
     }
 
-    function simulateSpin() {
-        isUserSpin = true;
-        openPopup();
+    async function simulateSpin() {
+    isUserSpin = true;
+    openPopup();
 
-        const spinningInterval = 500;
-        let currentImageIndex = Math.floor(Math.random() * popupImages.length);
+    const spinningInterval = 500;
+    let currentImageIndex = Math.floor(Math.random() * popupImages.length);
 
-        const spinIntervalId = setInterval(() => {
-            popupImages.forEach((img, index) => {
-                img.style.display = index === currentImageIndex ? 'block' : 'none';
-            });
+    const spinIntervalId = setInterval(() => {
+        popupImages.forEach((img, index) => {
+            img.style.display = index === currentImageIndex ? 'block' : 'none';
+        });
 
-            updateIndicator(currentImageIndex);
+        updateIndicator(currentImageIndex);
 
-            currentImageIndex = (currentImageIndex + 1) % popupImages.length;
-        }, spinningInterval);
+        currentImageIndex = (currentImageIndex + 1) % popupImages.length;
+    }, spinningInterval);
 
-        setTimeout(() => {
-            clearInterval(spinIntervalId);
+    try {
+        await new Promise(resolve => setTimeout(resolve, 5000));
 
-            const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
+        clearInterval(spinIntervalId);
 
-            userLatestPet = pulledPet.name;
+        const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
 
-            displayMostRecentPet();
+        userLatestPet = pulledPet.name;
 
-            updateCounter();
+        displayMostRecentPet();
 
-            addPlayerToScoreboard(storedUser.name, pulledPet.name);
-        }, 5000);
+        updateCounter();
+
+        addPlayerToScoreboard(storedUser.name, pulledPet.name);
+    } catch (error) {
+        console.error('Error in simulateSpin:', error);
     }
+}
 
-    function simulateOtherPlayersOpenings() {
+
+    async function simulateOtherPlayersOpenings() {
         const players = [
             { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
             { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
@@ -96,12 +124,11 @@ document.addEventListener('DOMContentLoaded', function () {
             { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
             { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
         ];
-
-        players.forEach((player, index) => {
-            setTimeout(() => {
-                addPlayerToScoreboard(player.name, player.pet);
-            }, index * 1000);
-        });
+    
+        await Promise.all(players.map(async (player, index) => {
+            await new Promise(resolve => setTimeout(resolve, index * 1000));
+            addPlayerToScoreboard(player.name, player.pet);
+        }));
     }
 
     function getRandomPetFromImage(imageId) {

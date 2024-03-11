@@ -18,11 +18,10 @@ app.post('/api/register', (req, res) => {
 
     if (existingUser) {
         existingUser.lastLogin = new Date();
-        
-        res.json({ message: 'Login successful!' });
+        res.json({ message: 'Registration successful!' });
     } else {
         users.push(user);
-        res.json({ message: 'Registration successful!' });
+        res.json({ message: 'Login successful!' });
     }
 });
 
@@ -48,7 +47,8 @@ app.post('/api/addScore', (req, res) => {
 
     scores.push({ playerName, pet });
 
-    res.json({ message: 'Score added successfully!' });
+    // Assuming you want to send the updated scores back to the client
+    res.json({ message: 'Score added successfully!', scores });
 });
 
 app.post('/api/dogImage', (req, res) => {
