@@ -39,7 +39,7 @@ printf "\n----> Deploy the service on the target\n"
 ssh -i "$key" ubuntu@$hostname << ENDSSH
 bash -i
 cd services/${service}
-npm install
+npm install express mongodb cookie-parser bcrypt
 pm2 restart ${service}
 ENDSSH
 
