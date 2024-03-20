@@ -1,65 +1,97 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 const app = express();
 const port = 4000;
+
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  lastLogin: { type: Date, default: Date.now }
+});
+
+const User = mongoose.model('User', userSchema);
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
-let users = [];
-let scores = [];
+app.post('/api/register', async (req, res) => {
+  const { name, email, password } = req.body;
 
-app.post('/api/register', (req, res) => {
-    const user = req.body;
-
-    const existingUser = users.find(u => u.email === user.email);
-
-    if (existingUser) {
-        existingUser.lastLogin = new Date();
-        res.json({ message: 'Registration successful!' });
-    } else {
-        users.push(user);
-        res.json({ message: 'Login successful!' });
-    }
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: hashedPassword });
+    await user.save();
+    res.json({ message: 'Registration successful!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
-app.post('/api/login', (req, res) => {
-    const { email, password } = req.body;
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
 
-    const user = users.find(u => u.email === email && u.password === password);
-
-    if (user) {
-        res.cookie('userEmail', user.email, { maxAge: 900000, httpOnly: true });
-        res.json({ message: 'Login successful!' });
-    } else {
-        res.status(401).json({ message: 'Invalid credentials' });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.cookie('token', token, { httpOnly: true });
+    res.json({ message: 'Login successful!', token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 app.post('/api/addScore', (req, res) => {
-    const { playerName, pet } = req.body;
-
-    if (!playerName || !pet) {
-        return res.status(400).json({ message: 'Invalid data. Both playerName and pet are required.' });
-    }
-
-    scores.push({ playerName, pet });
-
-    res.json({ message: 'Score added successfully!', scores });
+  res.json({ message: 'Score added successfully!' });
 });
 
-app.post('/api/dogImage', (req, res) => {
-    const { imageUrl } = req.body;
+function authenticateToken(req, res, next) {
+  const token = req.cookies.token;
 
-    res.json({ message: 'Dog image URL received successfully!' });
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+    req.user = user;
+    next();
+  });
+}
+
+app.get('/api/userData', authenticateToken, (req, res) => {
+  res.json({ message: 'User data retrieved successfully!' });
 });
 
 app.use((_req, res) => {
-    res.sendFile('index.html', { root: 'public' });
+  res.sendFile('index.html', { root: 'public' });
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+  console.log(`Server is running on port ${port}`);
 });
