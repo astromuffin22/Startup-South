@@ -9,7 +9,8 @@ require('dotenv').config();
 const app = express();
 const port = 4000;
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect("mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/mydatabase"
+, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
