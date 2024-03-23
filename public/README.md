@@ -105,3 +105,13 @@ For this deliverable, I incorporated backend endpoints in my code to handle regi
 - **Calls to third party endpoints** - In the instructions.js file, I'm making a call to a third-party service (https://dog.ceo/api/breeds/image/random) to fetch a random dog image.✅
 - **Backend service endpoints** - I've implemented several service endpoints in my index.js file (/api/register, /api/login, /api/addScore, and /api/dogImage) to handle user registration, login, adding scores, and receiving dog images.✅
 - **Frontend calls service endpoints** - In my login.js and mainscreen.js files, I'm making fetch requests to my service endpoints (/api/register, /api/addScore, and others) to interact with my backend.✅
+
+## DB/Login deliverable
+
+For this deliverable I stored logins within the database
+
+- **Supports new user registration** - done!✅
+- **Supports existing user authentication** - done!✅
+- **Stores application data in MongoDB** - Creates a new account in the database.✅
+- **Stores and retrieves credentials in MongoDB** - done!✅
+- **Restricts application functionality based upon authentication** - done!✅
