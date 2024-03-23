@@ -9,7 +9,7 @@ require('dotenv').config();
 const app = express();
 const port = 4000;
 
-const uri = "mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"; // Update with your MongoDB URI
+const uri = "mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
