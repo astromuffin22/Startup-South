@@ -47,31 +47,24 @@ document.addEventListener('DOMContentLoaded', function () {
             if (Array.isArray(data.scores)) {
                 updateNotificationList(data.scores);
             } else {
-                console.error('Invalid scores data:', data.scores);
+                console.error('Invalid scores data:', data);
             }
         })
         .catch(error => {
             console.error('Error adding score:', error);
         });
     }
-    
+
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
-    
-        if (Array.isArray(scores)) {
-            notificationList.innerHTML = '';
-    
-            scores.forEach(score => {
-                const listItem = document.createElement('li');
-                listItem.classList.add('player-name');
-                listItem.textContent = `${score.playerName} pulled ${score.pet}`;
-                notificationList.appendChild(listItem);
-            });
-        } else {
-            console.error('Invalid scores data:', scores);
-        }
+        notificationList.innerHTML = '';
+        scores.forEach(score => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('player-name');
+            listItem.textContent = `${score.playerName} pulled ${score.pet}`;
+            notificationList.appendChild(listItem);
+        });
     }
-    
 
     function updateCounter() {
         totalCasesOpened++;
@@ -83,66 +76,53 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function simulateSpin() {
-    isUserSpin = true;
-    openPopup();
+        isUserSpin = true;
+        openPopup();
+        const spinningInterval = 500;
+        let currentImageIndex = Math.floor(Math.random() * popupImages.length);
+        const spinIntervalId = setInterval(() => {
+            popupImages.forEach((img, index) => {
+                img.style.display = index === currentImageIndex ? 'block' : 'none';
+            });
+            updateIndicator(currentImageIndex);
+            currentImageIndex = (currentImageIndex + 1) % popupImages.length;
+        }, spinningInterval);
 
-    const spinningInterval = 500;
-    let currentImageIndex = Math.floor(Math.random() * popupImages.length);
-
-    const spinIntervalId = setInterval(() => {
-        popupImages.forEach((img, index) => {
-            img.style.display = index === currentImageIndex ? 'block' : 'none';
-        });
-
-        updateIndicator(currentImageIndex);
-
-        currentImageIndex = (currentImageIndex + 1) % popupImages.length;
-    }, spinningInterval);
-
-    try {
-        await new Promise(resolve => setTimeout(resolve, 5000));
-
-        clearInterval(spinIntervalId);
-
-        const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
-
-        userLatestPet = pulledPet.name;
-
-        displayMostRecentPet();
-
-        updateCounter();
-
-        addPlayerToScoreboard(storedUser.name, pulledPet.name);
-    } catch (error) {
-        console.error('Error in simulateSpin:', error);
+        try {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            clearInterval(spinIntervalId);
+            const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
+            userLatestPet = pulledPet.name;
+            displayMostRecentPet();
+            updateCounter();
+            addPlayerToScoreboard(storedUser.name, pulledPet.name);
+        } catch (error) {
+            console.error('Error in simulateSpin:', error);
+        }
     }
-}
 
+    async function simulateOtherPlayersOpenings() {
+        const players = [
+            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
+            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
+            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
+        ];
 
-async function simulateOtherPlayersOpenings() {
-    const players = [
-        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
-        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
-        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
-    ];
-
-    await Promise.all(players.map(async (player, index) => {
-        await new Promise(resolve => setTimeout(resolve, index * 1000));
-        addPlayerToScoreboard(player.name, player.pet);
-        updateCounter();
-    }));
-}
-
+        await Promise.all(players.map(async (player, index) => {
+            await new Promise(resolve => setTimeout(resolve, index * 1000));
+            addPlayerToScoreboard(player.name, player.pet);
+            updateCounter();
+        }));
+    }
 
     function getRandomPetFromImage(imageId) {
         const petName = document.getElementById(imageId).dataset.pet;
-
         return petDatabase.find(p => p.name === petName) || { name: 'Fallback Pet', chance: 0.001 };
     }
 
@@ -153,25 +133,27 @@ async function simulateOtherPlayersOpenings() {
         }
     }
 
-    mainScreenImages.forEach((image) => {
-        image.addEventListener('click', () => {
-            simulateSpin();
+    if (mainScreenImages) {
+        mainScreenImages.forEach((image) => {
+            image.addEventListener('click', () => {
+                simulateSpin();
+            });
         });
-    });
+    }
 
-    closePopupButton.addEventListener('click', () => {
-        closePopup();
-    });
+    if (closePopupButton) {
+        closePopupButton.addEventListener('click', () => {
+            closePopup();
+        });
+    }
 
     if (storedUser) {
         if (usernameHeader) {
             usernameHeader.textContent = storedUser.name;
         }
-
         if (yourUsernameSpan) {
             yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 0.001%`;
         }
-
         simulateOtherPlayersOpenings();
     }
 });
