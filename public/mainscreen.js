@@ -35,10 +35,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function addPlayerToScoreboard(playerName, pet, chance) {
+        const token = getCookie('token'); // Use the getCookie function to retrieve the token from cookies
+        
         fetch('/api/addScore', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Include the token in the Authorization header
             },
             body: JSON.stringify({ playerName, pet, chance }),
         })
@@ -60,6 +63,13 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Error adding score:', error);
         });
+    }
+    
+    
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
     }
 
     
