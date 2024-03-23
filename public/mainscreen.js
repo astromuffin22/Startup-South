@@ -34,13 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    function addPlayerToScoreboard(playerName, pet) {
+    function addPlayerToScoreboard(playerName, pet, chance) {
         fetch('/api/addScore', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ playerName, pet }),
+            body: JSON.stringify({ playerName, pet, chance }),
         })
         .then(response => {
             if (!response.ok) {
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateIndicator(currentImageIndex);
             currentImageIndex = (currentImageIndex + 1) % popupImages.length;
         }, spinningInterval);
-
+    
         try {
             await new Promise(resolve => setTimeout(resolve, 5000));
             clearInterval(spinIntervalId);
@@ -104,7 +104,8 @@ document.addEventListener('DOMContentLoaded', function () {
             userLatestPet = pulledPet.name;
             displayMostRecentPet();
             updateCounter();
-            addPlayerToScoreboard(storedUser.name, pulledPet.name);
+            const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
+            addPlayerToScoreboard(storedUser.name, pulledPet.name, chance);
         } catch (error) {
             console.error('Error in simulateSpin:', error);
         }
