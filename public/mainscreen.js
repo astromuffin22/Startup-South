@@ -34,27 +34,28 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function addPlayerToScoreboard(playerName, pet) {
-        fetch('/api/addScore', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ playerName, pet }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to add score');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Server response:', data);
-            updateNotificationList(data.scores);
-        })
-        .catch(error => {
-            console.error('Error adding score:', error);
-        });
-    }
+    fetch('/api/addScore', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ playerName, pet }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to add score');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Server response:', data);
+        updateNotificationList(data.scores);
+    })
+    .catch(error => {
+        console.error('Error adding score:', error);
+    });
+}
+
     
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
@@ -70,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+    
 
     function updateCounter() {
         totalCasesOpened++;
@@ -81,65 +83,65 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function simulateSpin() {
-        isUserSpin = true;
-        openPopup();
+    isUserSpin = true;
+    openPopup();
 
-        const spinningInterval = 500;
-        let currentImageIndex = Math.floor(Math.random() * popupImages.length);
+    const spinningInterval = 500;
+    let currentImageIndex = Math.floor(Math.random() * popupImages.length);
 
-        const spinIntervalId = setInterval(() => {
-            popupImages.forEach((img, index) => {
-                img.style.display = index === currentImageIndex ? 'block' : 'none';
-            });
+    const spinIntervalId = setInterval(() => {
+        popupImages.forEach((img, index) => {
+            img.style.display = index === currentImageIndex ? 'block' : 'none';
+        });
 
-            updateIndicator(currentImageIndex);
+        updateIndicator(currentImageIndex);
 
-            currentImageIndex = (currentImageIndex + 1) % popupImages.length;
-        }, spinningInterval);
+        currentImageIndex = (currentImageIndex + 1) % popupImages.length;
+    }, spinningInterval);
 
-        try {
-            await new Promise(resolve => setTimeout(resolve, 5000));
+    try {
+        await new Promise(resolve => setTimeout(resolve, 5000));
 
-            clearInterval(spinIntervalId);
+        clearInterval(spinIntervalId);
 
-            const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
+        const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
 
-            userLatestPet = pulledPet.name;
+        userLatestPet = pulledPet.name;
 
-            displayMostRecentPet();
+        displayMostRecentPet();
 
-            updateCounter();
+        updateCounter();
 
-            addPlayerToScoreboard(storedUser?.name, pulledPet.name);
-        } catch (error) {
-            console.error('Error in simulateSpin:', error);
-        } finally {
-            isUserSpin = false;
-        }
+        addPlayerToScoreboard(storedUser.name, pulledPet.name);
+    } catch (error) {
+        console.error('Error in simulateSpin:', error);
     }
+}
 
-    async function simulateOtherPlayersOpenings() {
-        const players = [
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
-        ];
 
-        await Promise.all(players.map(async (player, index) => {
-            await new Promise(resolve => setTimeout(resolve, index * 1000));
-            addPlayerToScoreboard(player.name, player.pet);
-            updateCounter();
-        }));
-    }
+async function simulateOtherPlayersOpenings() {
+    const players = [
+        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
+        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
+        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
+        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
+        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
+        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
+        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
+        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
+        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
+    ];
+
+    await Promise.all(players.map(async (player, index) => {
+        await new Promise(resolve => setTimeout(resolve, index * 1000));
+        addPlayerToScoreboard(player.name, player.pet);
+        updateCounter();
+    }));
+}
+
 
     function getRandomPetFromImage(imageId) {
-        const petName = document.getElementById(imageId)?.dataset.pet;
+        const petName = document.getElementById(imageId).dataset.pet;
 
         return petDatabase.find(p => p.name === petName) || { name: 'Fallback Pet', chance: 0.001 };
     }
@@ -147,15 +149,19 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayMostRecentPet() {
         if (petsContainer && userLatestPet) {
             const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
-            petsContainer.innerHTML = `<span class="users-pet">${storedUser?.name} - ${userLatestPet} - ${(chance * 100).toFixed(3)}%</span>`;
+            petsContainer.innerHTML = `<span class="users-pet">${storedUser.name} - ${userLatestPet} - ${(chance * 100).toFixed(3)}%</span>`;
         }
     }
 
     mainScreenImages.forEach((image) => {
-        image.addEventListener('click', simulateSpin);
+        image.addEventListener('click', () => {
+            simulateSpin();
+        });
     });
 
-    closePopupButton.addEventListener('click', closePopup);
+    closePopupButton.addEventListener('click', () => {
+        closePopup();
+    });
 
     if (storedUser) {
         if (usernameHeader) {
