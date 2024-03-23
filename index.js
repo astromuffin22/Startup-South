@@ -9,7 +9,7 @@ require('dotenv').config();
 const app = express();
 const port = 4000;
 
-const uri = "mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/case_central";
+const uri = "mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -30,11 +30,14 @@ client.connect().then(() => {
     const { name, email, password } = req.body;
 
     try {
+      console.log('Received registration request:', req.body);
+
       const hashedPassword = await bcrypt.hash(password, 10);
       await usersCollection.insertOne({ name, email, password: hashedPassword });
-      res.json({ message: 'Registration successful!' });
+      console.log('User registered successfully:', { name, email });
+      res.status(201).json({ message: 'Registration successful!' });
     } catch (error) {
-      console.error(error);
+      console.error('Registration error:', error);
       res.status(500).json({ message: 'Internal server error' });
     }
   });
@@ -43,24 +46,30 @@ client.connect().then(() => {
     const { email, password } = req.body;
 
     try {
-      const user = await usersCollection.findOne({ email });
-      if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
-      }
+        console.log('Received login request:', req.body);
 
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        return res.status(401).json({ message: 'Invalid credentials' });
-      }
+        const user = await usersCollection.findOne({ email });
+        if (!user) {
+            console.log('User not found:', email);
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
 
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.cookie('token', token, { httpOnly: true });
-      res.json({ message: 'Login successful!', token });
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
+            console.log('Invalid password for user:', email);
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.cookie('token', token, { httpOnly: true });
+        console.log('Login successful for user:', email);
+        res.json({ message: 'Login successful!', token });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+        console.error('Login error:', error);
+        res.status(500).json({ message: 'Internal server error' });
     }
-  });
+});
+
 
   app.post('/api/addScore', (req, res) => {
     res.json({ message: 'Score added successfully!' });
@@ -70,11 +79,13 @@ client.connect().then(() => {
     const token = req.cookies.token;
 
     if (!token) {
+      console.log('Unauthorized access: No token provided');
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
+        console.log('Forbidden access: Invalid token');
         return res.status(403).json({ message: 'Forbidden' });
       }
       req.user = user;
@@ -83,6 +94,7 @@ client.connect().then(() => {
   }
 
   app.get('/api/userData', authenticateToken, (req, res) => {
+    console.log('User data accessed:', req.user.email);
     res.json({ message: 'User data retrieved successfully!' });
   });
 
