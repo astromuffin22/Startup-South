@@ -66,7 +66,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.post('/api/addScore', (req, res) => {
-  res.json({ message: 'Score added successfully!' });
+  res.send({ message: 'Score added successfully!' });
 });
 
 function authenticateToken(req, res, next) {
