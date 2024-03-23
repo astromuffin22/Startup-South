@@ -33,9 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(data => {
-            localStorage.setItem('username', data.username);
-            localStorage.setItem('token', data.token);
-
+            localStorage.setItem('user', JSON.stringify(data));
             window.location.href = 'mainscreen.html';
         })
         .catch(error => console.error('Error:', error));
