@@ -55,12 +55,12 @@ app.post('/api/login', async (req, res) => {
     try {
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Invalid email or password' });
       }
   
       const passwordMatch = await bcrypt.compare(password, user.password);
       if (!passwordMatch) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        return res.status(401).json({ message: 'Invalid email or password' });
       }
   
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -68,10 +68,11 @@ app.post('/api/login', async (req, res) => {
       res.cookie('token', token, { httpOnly: true });
       res.json({ message: 'Logged in!', token });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'Login failed. Please try again later' });
     }
-  });
+});
+
 
 app.post('/api/addScore', authenticateToken, (req, res) => {
     const data = req.body;
