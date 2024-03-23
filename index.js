@@ -9,15 +9,14 @@ require('dotenv').config();
 const app = express();
 const port = 4000;
 
-mongoose.connect("mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/case_central"
-, {
+mongoose.connect("mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/case_central", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
 const userSchema = new mongoose.Schema({
   name: String,
-  email: String,
+  email: { type: String, unique: true },
   password: String,
   lastLogin: { type: Date, default: Date.now }
 });
@@ -32,8 +31,14 @@ app.post('/api/register', async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email already exists' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ name, email, password: hashedPassword });
+
     await user.save();
     res.json({ message: 'Registration successful!' });
   } catch (error) {
@@ -57,6 +62,7 @@ app.post('/api/login', async (req, res) => {
     }
 
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
     res.cookie('token', token, { httpOnly: true });
     res.json({ message: 'Login successful!', token });
   } catch (error) {
@@ -65,11 +71,11 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.post('/api/addScore', (req, res) => {
-    const { playerName, pet } = req.body;
-    const newScore = { playerName, pet };
-    scoresData.push(newScore);
-    res.json({ message: 'Score added successfully!', scores: scoresData });
+app.post('/api/addScore', authenticateToken, (req, res) => {
+  const { playerName, pet } = req.body;
+  const newScore = { playerName, pet };
+  scoresData.push(newScore);
+  res.json({ message: 'Score added successfully!', scores: scoresData });
 });
 
 function authenticateToken(req, res, next) {
@@ -87,14 +93,6 @@ function authenticateToken(req, res, next) {
     next();
   });
 }
-
-app.get('/api/userData', authenticateToken, (req, res) => {
-  res.json({ message: 'User data retrieved successfully!' });
-});
-
-app.use((_req, res) => {
-  res.sendFile('index.html', { root: 'public' });
-});
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
