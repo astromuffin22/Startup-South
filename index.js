@@ -28,25 +28,6 @@ const userSchema = new mongoose.Schema({
   lastLogin: { type: Date, default: Date.now }
 });
 
-const User = mongoose.model('User', userSchema);
-
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.static('public'));
-
-app.post('/api/register', async (req, res) => {
-  const { name, email, password } = req.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ name, email, password: hashedPassword });
-    await user.save();
-    res.json({ message: 'Registration successful!' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
 
 app.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
