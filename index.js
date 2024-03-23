@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -9,77 +9,90 @@ require('dotenv').config();
 const app = express();
 const port = 4000;
 
-const uri = "mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-
-const client = new MongoClient(uri, {
+mongoose.connect("mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/case_central"
+, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
-client.connect().then(() => {
-  console.log('Connected to MongoDB');
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  lastLogin: { type: Date, default: Date.now }
+});
 
-  const db = client.db('case_central');
-  const usersCollection = db.collection('users');
+const User = mongoose.model('User', userSchema);
 
-  app.use(bodyParser.json());
-  app.use(cookieParser());
-  app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.static('public'));
 
-  app.post('/api/register', async (req, res) => {
-    const { name, email, password } = req.body;
+app.post('/api/register', async (req, res) => {
+  const { name, email, password } = req.body;
 
-    try {
-      console.log('Received registration request:', req.body);
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: hashedPassword });
+    await user.save();
+    res.json({ message: 'Registration successful!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
-      const existingUser = await usersCollection.findOne({ email });
-      if (existingUser) {
-        return res.status(400).json({ message: 'Email already registered' });
-      }
+app.post('/api/login', async (req, res) => {
+  const { email, password } = req.body;
 
-      const hashedPassword = await bcrypt.hash(password, 10);
-      await usersCollection.insertOne({ name, email, password: hashedPassword });
-      console.log('User registered successfully:', { name, email });
-      res.status(201).json({ message: 'Registration successful!' });
-    } catch (error) {
-      console.error('Registration error:', error);
-      res.status(500).json({ message: 'Internal server error' });
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
-  });
 
-  app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-      console.log('Received login request:', req.body);
-
-      const user = await usersCollection.findOne({ email });
-      if (!user) {
-        console.log('User not found:', email);
-        return res.status(401).json({ message: 'Invalid credentials' });
-      }
-
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      if (!passwordMatch) {
-        console.log('Invalid password for user:', email);
-        return res.status(401).json({ message: 'Invalid credentials' });
-      }
-
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-      res.cookie('token', token, { httpOnly: true });
-      console.log('Login successful for user:', email);
-      res.json({ message: 'Login successful!', token });
-    } catch (error) {
-      console.error('Login error:', error);
-      res.status(500).json({ message: 'Internal server error' });
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
-  });
 
-  // Add other routes as needed
+    const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    res.cookie('token', token, { httpOnly: true });
+    res.json({ message: 'Login successful!', token });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.post('/api/addScore', (req, res) => {
+  res.json({ message: 'Score added successfully!' });
+});
+
+function authenticateToken(req, res, next) {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: 'Forbidden' });
+    }
+    req.user = user;
+    next();
   });
-}).catch(err => {
-  console.error('Failed to connect to MongoDB:', err);
+}
+
+app.get('/api/userData', authenticateToken, (req, res) => {
+  res.json({ message: 'User data retrieved successfully!' });
+});
+
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: 'public' });
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

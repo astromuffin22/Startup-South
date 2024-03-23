@@ -1,45 +1,32 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('userForm');
+  const form = document.querySelector('form');
+  const nameInput = document.getElementById('name');
+  const emailInput = document.getElementById('Email');
+  const passwordInput = document.getElementById('password');
 
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
 
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('Email').value;
-        const password = document.getElementById('password').value;
+    const name = nameInput.value;
+    const email = emailInput.value;
+    const password = passwordInput.value;
 
-        const newUser = { name, email, password };
+    const newUser = { name, email, password };
 
-        const submitButton = event.submitter;
+    localStorage.setItem('user', JSON.stringify(newUser));
 
-        let url;
-        if (submitButton.id === 'loginBtn') {
-            url = '/api/login';
-        } else if (submitButton.id === 'signupBtn') {
-            url = '/api/register';
-        }
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(newUser),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to login/signup');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.token) {
-                localStorage.setItem('user', JSON.stringify(data));
-                window.location.href = 'mainscreen.html';
-            } else {
-                console.error('Token not found in response:', data);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
+    fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+        window.location.href = 'mainscreen.html';
+      })
+      .catch(error => console.error('Error:', error));
+  });
 });

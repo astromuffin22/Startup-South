@@ -34,42 +34,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function addPlayerToScoreboard(playerName, pet) {
-    fetch('/api/addScore', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ playerName, pet }),
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to add score');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Server response:', data);
-        updateNotificationList(data.scores);
-    })
-    .catch(error => {
-        console.error('Error adding score:', error);
-    });
-}
-
+        fetch('/api/addScore', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ playerName, pet }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+    
+            updateNotificationList(data.scores);
+        })
+        .catch(error => {
+            console.error('Error adding score:', error);
+        });
+    }
     
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
         
         notificationList.innerHTML = '';
     
-        if (scores) {
-            scores.forEach(score => {
-                const listItem = document.createElement('li');
-                listItem.classList.add('player-name');
-                listItem.textContent = `${score.playerName} pulled ${score.pet}`;
-                notificationList.appendChild(listItem);
-            });
-        }
+        scores.forEach(score => {
+            const listItem = document.createElement('li');
+            listItem.classList.add('player-name');
+            listItem.textContent = `${score.playerName} pulled ${score.pet}`;
+            notificationList.appendChild(listItem);
+        });
     }
     
 
