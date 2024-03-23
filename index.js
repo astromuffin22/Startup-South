@@ -66,12 +66,13 @@ app.post('/api/login', async (req, res) => {
       const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
   
       res.cookie('token', token, { httpOnly: true });
-      res.json({ message: 'Login successful!', token });
+      res.json({ message: 'Logged in!', token });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
     }
   });
+  
   
 app.post('/api/addScore', authenticateToken, (req, res) => {
     const { playerName, pet, chance } = req.body;
