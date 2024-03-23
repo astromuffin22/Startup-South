@@ -7,11 +7,12 @@
     <link rel="icon" type="image/x-icon" href="Case-Central-logos.ico">
     <link rel="stylesheet" href="index.css">
     <script src="login.js" defer></script>
+    <script src="mainscreen.js" defer></script> possible addition
 </head>
 <body>
     <header>
         <div class="title-logo">
-            <p class="welcome">Welcome!</p>
+            <p class="welcome">Welcome, <span id="username"></span>!</p> possible addition
             <h1> Case Central </h1>
             <div id="picture" class="picture-box">
                 <img width="100px" length="100px" src="Case Central-logos.jpeg" alt="random" />
@@ -24,7 +25,6 @@
                 <a id="mainpage-btn" href="mainscreen.html">MainPage</a>
                 <a id="instructions-btn" href="instructions.html">Instructions</a>
             </menu>
-            
         </nav>
     </header>
     <main>
@@ -39,10 +39,10 @@
             <button type="submit" id="loginBtn">Login</button>
             <button type="submit" id="signupBtn">Signup</button>
         </form>
-        <h2>
-            Current Case's Available!
-        </h2>
+        <h2>Current Cases Available!</h2>
         <div class="picture-box"><img width="350" length="350" src="Pet_Case__1-removebg-preview.png" alt="random" /></div>
+        <h2>Scoreboard</h2>
+        <ul id="scoreboard"></ul> possible addition
     </main>
     <footer>
         <span class="text-reset">Author Name(s)</span>

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
-    const usernameHeader = document.querySelector('.username');
+    const usernameHeader = document.querySelector('.welcome .username'); // Corrected selector
     const yourUsernameSpan = document.querySelector('.users-pet');
     const petsContainer = document.querySelector('.pets');
 
@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
             notificationList.appendChild(listItem);
         });
     }
-    
 
     function updateCounter() {
         totalCasesOpened++;
@@ -76,62 +75,60 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     async function simulateSpin() {
-    isUserSpin = true;
-    openPopup();
+        isUserSpin = true;
+        openPopup();
 
-    const spinningInterval = 500;
-    let currentImageIndex = Math.floor(Math.random() * popupImages.length);
+        const spinningInterval = 500;
+        let currentImageIndex = Math.floor(Math.random() * popupImages.length);
 
-    const spinIntervalId = setInterval(() => {
-        popupImages.forEach((img, index) => {
-            img.style.display = index === currentImageIndex ? 'block' : 'none';
-        });
+        const spinIntervalId = setInterval(() => {
+            popupImages.forEach((img, index) => {
+                img.style.display = index === currentImageIndex ? 'block' : 'none';
+            });
 
-        updateIndicator(currentImageIndex);
+            updateIndicator(currentImageIndex);
 
-        currentImageIndex = (currentImageIndex + 1) % popupImages.length;
-    }, spinningInterval);
+            currentImageIndex = (currentImageIndex + 1) % popupImages.length;
+        }, spinningInterval);
 
-    try {
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        try {
+            await new Promise(resolve => setTimeout(resolve, 5000));
 
-        clearInterval(spinIntervalId);
+            clearInterval(spinIntervalId);
 
-        const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
+            const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
 
-        userLatestPet = pulledPet.name;
+            userLatestPet = pulledPet.name;
 
-        displayMostRecentPet();
+            displayMostRecentPet();
 
-        updateCounter();
+            updateCounter();
 
-        addPlayerToScoreboard(storedUser.name, pulledPet.name);
-    } catch (error) {
-        console.error('Error in simulateSpin:', error);
+            addPlayerToScoreboard(storedUser.name, pulledPet.name);
+        } catch (error) {
+            console.error('Error in simulateSpin:', error);
+        }
     }
-}
 
+    async function simulateOtherPlayersOpenings() {
+        const players = [
+            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
+            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
+            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
+        ];
 
-async function simulateOtherPlayersOpenings() {
-    const players = [
-        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
-        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
-        { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
-    ];
-
-    await Promise.all(players.map(async (player, index) => {
-        await new Promise(resolve => setTimeout(resolve, index * 1000));
-        addPlayerToScoreboard(player.name, player.pet);
-        updateCounter();
-    }));
-}
-
+        await Promise.all(players.map(async (player, index) => {
+            await new Promise(resolve => setTimeout(resolve, index * 1000));
+            addPlayerToScoreboard(player.name, player.pet);
+            updateCounter();
+        }));
+    }
 
     function getRandomPetFromImage(imageId) {
         const petName = document.getElementById(imageId).dataset.pet;
@@ -141,8 +138,8 @@ async function simulateOtherPlayersOpenings() {
 
     function displayMostRecentPet() {
         if (petsContainer && userLatestPet) {
-            const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
-            petsContainer.innerHTML = `<span class="users-pet">${storedUser.name} - ${userLatestPet} - ${(chance * 100).toFixed(3)}%</span>`;
+            const chance = (petDatabase.find(p => p.name === userLatestPet)?.chance || 0) * 100;
+            petsContainer.innerHTML = `<span class="users-pet">${storedUser.name} - ${userLatestPet} - ${chance.toFixed(2)}%</span>`;
         }
     }
 
