@@ -41,10 +41,14 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ playerName, pet }),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to add score');
+            }
+            return response.json();
+        })
         .then(data => {
             console.log('Server response:', data);
-    
             updateNotificationList(data.scores);
         })
         .catch(error => {
@@ -52,17 +56,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
+    
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
         
         notificationList.innerHTML = '';
     
-        scores.forEach(score => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('player-name');
-            listItem.textContent = `${score.playerName} pulled ${score.pet}`;
-            notificationList.appendChild(listItem);
-        });
+        if (scores) {
+            scores.forEach(score => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('player-name');
+                listItem.textContent = `${score.playerName} pulled ${score.pet}`;
+                notificationList.appendChild(listItem);
+            });
+        }
     }
     
 
