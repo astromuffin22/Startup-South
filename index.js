@@ -67,10 +67,7 @@ app.post('/api/login', async (req, res) => {
   
       res.cookie('token', token, { httpOnly: true });
       res.json({ message: 'Logged in!', token });
-    } catch (error) {
-      console.error('Login error:', error);
-      res.status(500).json({ message: 'Login failed. Please try again later' });
-    }
+    } 
 });
 
 
