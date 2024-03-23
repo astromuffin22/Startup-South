@@ -44,8 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(response => response.json())
         .then(data => {
             console.log('Server response:', data);
-    
-            updateNotificationList(data.scores);
+            if (Array.isArray(data.scores)) {
+                updateNotificationList(data.scores);
+            } else {
+                console.error('Invalid scores data:', data.scores);
+            }
         })
         .catch(error => {
             console.error('Error adding score:', error);
@@ -54,15 +57,19 @@ document.addEventListener('DOMContentLoaded', function () {
     
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
-        
-        notificationList.innerHTML = '';
     
-        scores.forEach(score => {
-            const listItem = document.createElement('li');
-            listItem.classList.add('player-name');
-            listItem.textContent = `${score.playerName} pulled ${score.pet}`;
-            notificationList.appendChild(listItem);
-        });
+        if (Array.isArray(scores)) {
+            notificationList.innerHTML = '';
+    
+            scores.forEach(score => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('player-name');
+                listItem.textContent = `${score.playerName} pulled ${score.pet}`;
+                notificationList.appendChild(listItem);
+            });
+        } else {
+            console.error('Invalid scores data:', scores);
+        }
     }
     
 
