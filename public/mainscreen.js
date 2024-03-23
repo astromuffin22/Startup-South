@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             console.log('Server response:', data);
     
-            updateNotificationList(data.scores);
+            updateNotificationList(data.message);
         })
         .catch(error => {
             console.error('Error adding score:', error);
