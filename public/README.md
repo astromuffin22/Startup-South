@@ -110,8 +110,8 @@ For this deliverable, I incorporated backend endpoints in my code to handle regi
 
 For this deliverable I stored logins within the database
 
-- **Supports new user registration** - done!✅
-- **Supports existing user authentication** - done!✅
-- **Stores application data in MongoDB** - Creates a new account in the database.✅
-- **Stores and retrieves credentials in MongoDB** - done!✅
-- **Restricts application functionality based upon authentication** - done!✅
+- **Supports new user registration** - done, creates a new account for the user!✅
+- **Supports existing user authentication** - done, recognizes and logs in existing user!✅
+- **Stores application data in MongoDB** - uses MongoDB.✅
+- **Stores and retrieves credentials in MongoDB** - done, does this!✅
+- **Restricts application functionality based upon authentication** - done, !✅
