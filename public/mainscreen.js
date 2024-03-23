@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error in simulateSpin:', error);
         }
     }
+    
 
     async function simulateOtherPlayersOpenings() {
         const players = [
