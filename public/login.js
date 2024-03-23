@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('Email');
+    const passwordInput = document.getElementById('password');
   
     form.addEventListener('submit', function (event) {
       event.preventDefault();
