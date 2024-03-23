@@ -41,10 +41,15 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             body: JSON.stringify({ playerName, pet }),
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             console.log('Server response:', data);
-            if (Array.isArray(data.scores)) {
+            if (data && Array.isArray(data.scores)) {
                 updateNotificationList(data.scores);
             } else {
                 console.error('Invalid scores data:', data);
@@ -54,10 +59,11 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error adding score:', error);
         });
     }
-
+    
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
         notificationList.innerHTML = '';
+    
         scores.forEach(score => {
             const listItem = document.createElement('li');
             listItem.classList.add('player-name');
