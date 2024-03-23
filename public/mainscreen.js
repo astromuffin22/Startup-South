@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 scoresData = data.scores;
                 updateNotificationList(scoresData);
             } else {
-                console.error('Invalid scores data:', data);
+                console.log('Invalid scores data:', data);
             }
         })
         .catch(error => {
