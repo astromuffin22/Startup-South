@@ -33,8 +33,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return response.json();
         })
         .then(data => {
-            localStorage.setItem('user', JSON.stringify(data));
-            window.location.href = 'mainscreen.html';
+            if (data.token) {
+                localStorage.setItem('user', JSON.stringify(data));
+                window.location.href = 'mainscreen.html';
+            } else {
+                console.error('Token not found in response:', data);
+            }
         })
         .catch(error => console.error('Error:', error));
     });
