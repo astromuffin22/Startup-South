@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let totalCasesOpened = 1437;
     let isUserSpin = false;
     let userLatestPet = null;
+    let scoresData = [];
 
     const petDatabase = [
         { name: 'Yellow Teddy Bear', chance: 0.90 },
@@ -50,7 +51,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             console.log('Server response:', data);
             if (data && Array.isArray(data.scores)) {
-                updateNotificationList(data.scores);
+                scoresData = data.scores;
+                updateNotificationList(scoresData);
             } else {
                 console.error('Invalid scores data:', data);
             }
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error adding score:', error);
         });
     }
+
     
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
