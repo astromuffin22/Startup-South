@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
     const storedUser = JSON.parse(localStorage.getItem('user'));
+    if(!storedUser){
+        document.querySelector("main").classList.add("unauthenticated")
+        return
+    }
 
     const usernameHeader = document.querySelector('.username');
     const yourUsernameSpan = document.querySelector('.users-pet');

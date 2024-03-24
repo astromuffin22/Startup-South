@@ -111,6 +111,17 @@ main {
     display: flex;
     justify-content: space-between;
 }
+main > h2 {
+    display: none;
+}
+
+main.unauthenticated > h2 {
+    display: block;
+}
+
+main.unauthenticated .main-screen {
+    display: none;
+}
 
 main div {
     display: flex;
