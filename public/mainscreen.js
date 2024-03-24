@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         await Promise.all(players.map(async (player, index) => {
             await new Promise(resolve => setTimeout(resolve, index * 1000));
-            addPlayerToScoreboard(player.name, player.pet);
+            addPlayerToScoreboard(player.name, player.pet, player.chance);
             updateCounter();
         }));
     }
