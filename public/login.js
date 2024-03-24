@@ -28,10 +28,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         isOk:response.ok
                     })))
                     .then(info => {
-                        console.log(info)
-                        if (!info[0]) {
-                            console.log(info)
-                            alert(info[1].message);
+                        if (!info.isOk) {
+                            alert(info.data.message);
                         } else {
                             alert("Your sir or ma'am are now logged in <3")
                             window.location.href = 'mainscreen.html';
