@@ -74,7 +74,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 
-app.post('/api/addScore', authenticateToken, (req, res) => {
+app.post('/api/addScore', (req, res) => {
     const data = req.body;
     scoresData.push(data);
     res.json({ message: 'Score added successfully!', scores: scoresData });
