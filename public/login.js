@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => {return [response.ok, response.json()]})
                     .then(info => {
                         if (!info[0]) {
-                          alert(info[1].message);
+                            console.log(info)
+                            alert(info[1].message);
                         } else {
                             alert("Your sir or ma'am are now logged in <3")
                             window.location.href = 'mainscreen.html';
