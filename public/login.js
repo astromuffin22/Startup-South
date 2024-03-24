@@ -13,56 +13,44 @@ document.addEventListener('DOMContentLoaded', function () {
             const email = emailInput.value;
             const password = passwordInput.value;
 
+            let payload,
+                path,
+                successMessage;
             if (event.submitter.id === 'loginBtn') {
-                const credentials = { email, password };
+                payload = { email, password };
+                path = '/api/login';
+                successMessage = "CONGRATS you have loggggged in <3";
+            }else if (event.submitter.id === 'signupBtn') {
+                payload = { name, email, password };
+                path = '/api/register';
+                successMessage = "CONGRATS U SIGNED UP and now ur about to enter into a world of new imagination <3";
+            }
             
-                fetch('/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(credentials),
-                })
-                    .then(response => response.json().then(data => ({
-                        data:data,
-                        isOk:response.ok
-                    })))
-                    .then(info => {
-                        if (!info.isOk) {
-                            alert(info.data.message);
-                        } else {
-                            alert("Your sir or ma'am are now logged in <3")
-                            localStorage.setItem("user", JSON.stringify({
-                                "name":name,
-                                "email":email,
-                                "password":password
-                            }))
-                            window.location.href = 'mainscreen.html';
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            } else if (event.submitter.id === 'signupBtn') {
-                const newUser = { name, email, password };
-
-                fetch('/api/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(newUser),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.message);
+            fetch(path, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+                .then(response => response.json().then(data => ({
+                    data:data,
+                    isOk:response.ok
+                })))
+                .then(info => {
+                    if (!info.isOk) {
+                        alert(info.data.message);
+                    } else {
+                        alert(successMessage)
                         localStorage.setItem("user", JSON.stringify({
                             "name":name,
                             "email":email,
                             "password":password
                         }))
                         window.location.href = 'mainscreen.html';
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         });
     }
 });
