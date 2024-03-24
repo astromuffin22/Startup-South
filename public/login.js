@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify(credentials),
                 })
-                    .then(response => {return response, response.json()})
-                    .then(response, json => {
-                        if (!response.ok) {
+                    .then(response => {return response.ok, response.json()})
+                    .then(isOk, json => {
+                        if (!isOk) {
                           alert(json.message);
                         } else {
                             alert("Your sir or ma'am are now logged in <3")
