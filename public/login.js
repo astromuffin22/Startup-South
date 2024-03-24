@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (response.status == 500) {
                           alert(response.json().message);
                         } else {
-                            alert("loggggggged in")
-                        //   window.location.href = 'mainscreen.html';
+                            alert("Your sir or ma'am are now logged in <3")
+                            window.location.href = 'mainscreen.html';
                         }
                     })
                     .catch(error => console.error('Error:', error));
