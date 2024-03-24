@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const password = passwordInput.value;
 
             if (event.submitter.id === 'loginBtn') {
-                // Handle login
                 const credentials = { email, password };
 
                 fetch('/api/login', {
