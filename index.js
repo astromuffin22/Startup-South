@@ -63,10 +63,11 @@ app.post('/api/login', async (req, res) => {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
   
-      const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    //   const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
   
-      res.cookie('token', token, { httpOnly: true });
-      res.json({ message: 'Logged in!', token });
+    //   res.cookie('token', token, { httpOnly: true });
+    //   res.json({ message: 'Logged in!', token });
+      res.json({ message: 'Logged in!'});
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ message: 'ERROR' });

@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (response.status == 500) {
                           alert(response.json().message);
                         } else {
+                            alert("loggggggged in")
                         //   window.location.href = 'mainscreen.html';
                         }
                     })
