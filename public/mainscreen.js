@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scores.forEach(score => {
             const listItem = document.createElement('li');
             listItem.classList.add('player-name');
-            listItem.textContent = `${score.playerName} pulled ${score.pet} - ${score.chance}`;
+            listItem.textContent = `${score.playerName} pulled ${score.pet} - ${score.chance*100}%`;
             notificationList.appendChild(listItem);
         });
     }
@@ -113,15 +113,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function simulateOtherPlayersOpenings() {
         const players = [
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.90%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 15%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 5%' },
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.01%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 13%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 2%' },
-            { name: 'Bob', pet: 'Yellow Teddy Bear - 0.12%' },
-            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear - 1%' },
-            { name: 'Your_not_cool', pet: 'Cool Teddy Bear - 9%' },
+            { name: 'Bob', pet: 'Yellow Teddy Bear', chance: 0.1 },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear', chance: 0.9 },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear', chance: 0.5 },
+            { name: 'Bob', pet: 'Yellow Teddy Bear', chance: 0.1 },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear', chance: 0.9 },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear', chance: 0.5 },
+            { name: 'Bob', pet: 'Yellow Teddy Bear', chance: 0.1 },
+            { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear', chance: 0.9 },
+            { name: 'Your_not_cool', pet: 'Cool Teddy Bear', chance: 0.5 },
         ];
 
         await Promise.all(players.map(async (player, index) => {
