@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             alert(info.data.message);
                         } else {
                             alert("Your sir or ma'am are now logged in <3")
-                            localStorage.setItem("user", json.stringify({
+                            localStorage.setItem("user", JSON.stringify({
                                 "name":name,
                                 "email":email,
                                 "password":password
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => response.json())
                     .then(data => {
                         alert(data.message);
-                        localStorage.setItem("user", json.stringify({
+                        localStorage.setItem("user", JSON.stringify({
                             "name":name,
                             "email":email,
                             "password":password
