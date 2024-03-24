@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayMostRecentPet() {
         if (petsContainer && userLatestPet) {
             const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
-            petsContainer.innerHTML = `<span class="users-pet">${storedUser.name} - ${userLatestPet} - ${(chance * 100).toFixed(3)}%</span>`;
+            petsContainer.innerHTML = `<span class="users-pet">${storedUser.name} - ${userLatestPet} - ${(chance * 100)}%</span>`;
         }
     }
 
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
             usernameHeader.textContent = storedUser.name;
         }
         if (yourUsernameSpan) {
-            yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 0.001%`;
+            yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 2%`;
         }
         simulateOtherPlayersOpenings();
     }
