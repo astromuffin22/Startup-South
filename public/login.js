@@ -24,15 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     body: JSON.stringify(credentials),
                 })
                     .then(response => {
-                        console.log(response)
-                        response.json()
-                        console.log(response)
-                    })
-                    .then(data => {
-                        console.log(data)
-                        console.log(data.status)
-                        if (data.status == 500) {
-                          alert(data.message);
+                        if (response.status == 500) {
+                          alert(response.message);
                         } else {
                         //   window.location.href = 'mainscreen.html';
                         }
