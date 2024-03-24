@@ -23,8 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify(credentials),
                 })
-                    .then(response => {return [response.ok, response.json()]})
+                    .then(response => response.json())
                     .then(info => {
+                        console.log(info)
                         if (!info[0]) {
                             console.log(info)
                             alert(info[1].message);
