@@ -23,9 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify(credentials),
                 })
-                    .then(response => {
+                    .then(response => {return response, response.json()})
+                    .then(response, json => {
                         if (!response.ok) {
-                          alert(response.json().message);
+                          alert(json.message);
                         } else {
                             alert("Your sir or ma'am are now logged in <3")
                             window.location.href = 'mainscreen.html';
