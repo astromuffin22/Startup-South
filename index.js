@@ -80,22 +80,6 @@ app.post('/api/addScore', (req, res) => {
     res.json({ message: 'Score added successfully!', scores: scoresData });
 });
 
-function authenticateToken(req, res, next) {
-  const token = req.cookies.token;
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
-    if (err) {
-      console.error('Token verification error:', err);
-      return res.status(403).json({ message: 'Forbidden' });
-    }
-    req.decodedToken = decodedToken;
-    next();
-  });
-}
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
