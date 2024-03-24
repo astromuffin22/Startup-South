@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (event.submitter.id === 'loginBtn') {
                 const credentials = { email, password };
-
+            
                 fetch('/api/login', {
                     method: 'POST',
                     headers: {
@@ -25,8 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                     .then(response => response.json())
                     .then(data => {
-                        alert(data.message);
-                        window.location.href = 'mainscreen.html';
+                        console.log(data)
+                        console.log(data.status)
+                        if (data.status == 500) {
+                          alert(data.message);
+                        } else {
+                          window.location.href = 'mainscreen.html';
+                        }
                     })
                     .catch(error => console.error('Error:', error));
             } else if (event.submitter.id === 'signupBtn') {
