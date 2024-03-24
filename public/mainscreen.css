@@ -117,9 +117,10 @@ main > h2 {
 
 main.unauthenticated > h2 {
     display: block;
+    margin: auto;
 }
 
-main.unauthenticated .main-screen {
+main.unauthenticated .main-contents {
     display: none;
 }
 
@@ -319,11 +320,4 @@ button {
 button:hover {
     color: #ff4500;
     background-color: #333333;
-}
-
-section {
-    transition: transform 1s ease;
-}
-section:hover {
-    transform: translateY(-200px);
 }
