@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded', function () {
                             alert(info.data.message);
                         } else {
                             alert("Your sir or ma'am are now logged in <3")
+                            localStorage.setItem("user", json.stringify({
+                                "name":name,
+                                "email":email,
+                                "password":password
+                            }))
                             window.location.href = 'mainscreen.html';
                         }
                     })
@@ -49,6 +54,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(response => response.json())
                     .then(data => {
                         alert(data.message);
+                        localStorage.setItem("user", json.stringify({
+                            "name":name,
+                            "email":email,
+                            "password":password
+                        }))
                         window.location.href = 'mainscreen.html';
                     })
                     .catch(error => console.error('Error:', error));
