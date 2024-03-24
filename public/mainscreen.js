@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scores.forEach(score => {
             const listItem = document.createElement('li');
             listItem.classList.add('player-name');
-            listItem.textContent = `${score.playerName} pulled ${score.pet}`;
+            listItem.textContent = `${score.playerName} pulled ${score.pet} - ${score.chance}`;
             notificationList.appendChild(listItem);
         });
     }
