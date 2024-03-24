@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                     .then(response => {
                         if (response.status == 500) {
-                          alert(response.message);
+                          alert(response.json.message);
                         } else {
                         //   window.location.href = 'mainscreen.html';
                         }
