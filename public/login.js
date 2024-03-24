@@ -23,14 +23,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify(credentials),
                 })
-                    .then(response => response.json())
+                    .then(response => {
+                        console.log(response)
+                        response.json()
+                        console.log(response)
+                    })
                     .then(data => {
                         console.log(data)
                         console.log(data.status)
                         if (data.status == 500) {
                           alert(data.message);
                         } else {
-                          window.location.href = 'mainscreen.html';
+                        //   window.location.href = 'mainscreen.html';
                         }
                     })
                     .catch(error => console.error('Error:', error));
