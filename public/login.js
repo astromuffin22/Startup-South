@@ -23,7 +23,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     body: JSON.stringify(credentials),
                 })
-                    .then(response => response.json())
+                    .then(response => response.json().then(data => ({
+                        data:data,
+                        isOk:response.ok
+                    })))
                     .then(info => {
                         console.log(info)
                         if (!info[0]) {
