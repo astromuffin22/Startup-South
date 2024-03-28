@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    if(!storedUser){
+    if (!storedUser) {
         document.querySelector("main").classList.add("unauthenticated")
         return
     }
@@ -27,6 +27,27 @@ document.addEventListener('DOMContentLoaded', function () {
         { name: 'Dragon', chance: 0.02 }
     ];
 
+    const socket = new WebSocket('ws://localhost:4000');
+    
+    socket.onopen = function () {
+        console.log('WebSocket connection established');
+    };
+    
+    socket.onerror = function (error) {
+        console.error('WebSocket error:', error);
+    };
+
+    socket.onmessage = function (event) {
+        const message = JSON.parse(event.data);
+        if (message.type === 'updateScoreboard') {
+            scoresData = message.scores;
+            updateNotificationList(scoresData);
+        } else if (message.type === 'updateCounter') {
+            totalCasesOpened = message.totalCasesOpened;
+            counterSpan.textContent = `: ${totalCasesOpened}`;
+        }
+    };
+
     function openPopup() {
         popup.style.display = 'block';
     }
@@ -39,41 +60,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function addPlayerToScoreboard(playerName, pet, chance) {
-        fetch('/api/addScore', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ playerName, pet, chance }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Server response:', data);
-            if (data && Array.isArray(data.scores)) {
-                scoresData = data.scores;
-                updateNotificationList(scoresData);
-            } else {
-                console.log('Invalid scores data:', data);
-            }
-        })
-        .catch(error => {
-            console.error('Error adding score:', error);
-        });
+        const message = {
+            type: 'addScore',
+            data: { playerName, pet, chance }
+        };
+        socket.send(JSON.stringify(message));
     }
-    
+
     function updateNotificationList(scores) {
         const notificationList = document.querySelector('.notification');
         notificationList.innerHTML = '';
-    
+
         scores.forEach(score => {
             const listItem = document.createElement('li');
             listItem.classList.add('player-name');
-            listItem.textContent = `${score.playerName} pulled ${score.pet} - ${score.chance*100}%`;
+            listItem.textContent = `${score.playerName} pulled ${score.pet} - ${score.chance * 100}%`;
             notificationList.appendChild(listItem);
         });
     }
@@ -99,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function () {
             updateIndicator(currentImageIndex);
             currentImageIndex = (currentImageIndex + 1) % popupImages.length;
         }, spinningInterval);
-    
+
         try {
             await new Promise(resolve => setTimeout(resolve, 5000));
             clearInterval(spinIntervalId);
@@ -113,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error in simulateSpin:', error);
         }
     }
-    
 
     async function simulateOtherPlayersOpenings() {
         const players = [
