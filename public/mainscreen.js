@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const closePopupButton = document.getElementById('closePopupButton');
     const counterSpan = document.getElementById('count');
 
+    
     let totalCasesOpened = 1437;
     let isUserSpin = false;
     let userLatestPet = null;
