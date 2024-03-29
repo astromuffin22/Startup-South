@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const userForm = document.getElementById('userForm');
+
+// Clear token instead
     localStorage.removeItem("user")
 
     if (userForm) {
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         alert(info.data.message);
                     } else {
                         alert(successMessage)
+                        // Set token instead of user info
                         localStorage.setItem("user", JSON.stringify({
                             "name":name,
                             "email":email,

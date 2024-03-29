@@ -1,5 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
+    // Get token from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
+    // Send token to a new /api/authenticate endpoint to verify if user has valid token login
+    // Save /api/authenticate response as bool, check that variable below instead of storedUser
+    // Make new /api/authenticate endpoint in index.js
+// Also need to update setting the cookie and clearing the cookie in login.js
+// Also grab user info from authenticate endpoint
     if (!storedUser) {
         document.querySelector("main").classList.add("unauthenticated")
         return

@@ -3,8 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const WebSocket = require('ws');
+const uuid = require('uuid');
 require('dotenv').config();
 
 const app = express();
@@ -19,61 +18,87 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
-  lastLogin: { type: Date, default: Date.now }
+  lastLogin: { type: Date, default: Date.now },
+  token: { type: String, unique: true },
 });
 
 const User = mongoose.model('User', userSchema);
 
 let scoresData = [];
-let totalCasesOpened = 1437;
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
 
-const server = app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.post('/api/register', async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists!' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: hashedPassword, token: uuid.v4()});
+
+    await user.save();
+    res.json({ message: 'Registration successful!' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
-const wss = new WebSocket.Server({ server });
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
 
-wss.on('connection', ws => {
-  console.log('Client connected to WebSocket');
-
-  ws.send(JSON.stringify({ totalCasesOpened }));
-
-  ws.on('message', message => {
-    console.log('Received message from client:', message);
-  });
+      res.json({ message: 'Logged in!'});
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'ERROR' });
+    }
 });
 
-function updateScoreboard(data) {
-  scoresData.push(data);
-  wss.clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ scoresData }));
-    }
-  });
-}
+// Beginnings of authenticate endpoint
+// Also need to update setting the cookie and clearing the cookie in login.js
+app.post('/api/authenticate', async (req, res) => {
+    const { token } = req.body;
+  
+    try {
+        // Check if User.findOne can be conigured to check token
+      const user = await User.findOne({ token });
+    //   If not authenticated, send back a different code and also include user info
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
 
-function updateTotalCasesOpened() {
-  totalCasesOpened++;
-  wss.clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ totalCasesOpened }));
+    //   Send different message if successful to check
+      res.json({ message: 'Logged in!'});
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({ message: 'ERROR' });
     }
-  });
-}
+});
+
 
 app.post('/api/addScore', (req, res) => {
-  const data = req.body;
-  updateScoreboard(data);
-  updateTotalCasesOpened();
-  res.json({ message: 'Score added successfully!', scores: scoresData });
+    const data = req.body;
+    scoresData.push(data);
+    res.json({ message: 'Score added successfully!', scores: scoresData });
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-
-  
+  console.log(`Server is running on port ${port}`);
+});
