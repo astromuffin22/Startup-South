@@ -110,19 +110,29 @@ server.on('upgrade', (req, socket, head) => {
     });
 }); 
 wss.on('connection', (ws, req) => {
-    // ws.on('open', (data) => {
-    //     console.log('Socket established successfully!')
-    // })
+    ws.on('open', (data) => {
+        console.log('Socket established successfully!')
+    })
 
-    // ws.on('message', (data) => {
-    //     console.log('hllo from server')
-    // })
+    ws.on('message', (data) => {
+        console.log("SERVER RECEIVED A MESSAGE")
+        const message = JSON.parse(event.data);
+        console.log(message);
+        if (message.type === 'updateScoreboard') {
+            scoresData = message.scores;
+            updateNotificationList(scoresData);
+        } else if (message.type === 'updateCounter') {
+            console.log("RIGGITY PIGGITY SPENCER IS A FRIGGITY")
+            totalCasesOpened = message.caseCount;
+            counterSpan.textContent = `: ${totalCasesOpened}`;
+        }
+    })
 
-    // ws.on('close', (data) => {
-    //     console.log('Socket disconnected')
-    // })
+    ws.on('close', (data) => {
+        console.log('Socket disconnected')
+    })
 
-    // ws.send('this is a message that i am sending from the server to client!!!!')//stuff
+    ws.send('this is a message that i am sending from the server to client!!!!')//stuff
 });
 
 
