@@ -28,9 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     console.log(username)
-    if(!username) {
+    if(username != null) {
+        console.log("Backing out")
         return;
     } else {
+        console.log("Authenticated, we're in")
         console.log(username)
     }
 
