@@ -27,11 +27,61 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 let scoresData = [];
-let totalCasesOpened = 1437;
+//let totalCasesOpened = 1437;
+//---------------------------
+const overallCaseCountSchema = new mongoose.Schema({
+    count: { type: Number, default: 0 }
+  });
+
+const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
+//----------------------------
 
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static('public'));
+
+
+//---------------------------------------------------
+app.get('/api/overallCaseCount', async (req, res) => {
+    try {
+      // Find the overall case count from the database
+      const countData = await OverallCaseCount.findOne();
+      res.json({ count: countData ? countData.count : 0 });
+    } catch (error) {
+      console.error('Error fetching overall case count:', error);
+      res.status(500).json({ message: 'Error fetching overall case count' });
+    }
+  });
+
+    function updateOverallCaseCount(count) {
+    OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
+      .then(() => {
+        // Broadcast the updated count to all connected clients
+        connections.forEach(conn => {
+          conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
+        });
+      })
+      .catch(error => {
+        console.error('Error updating overall case count:', error);
+      });
+  }
+  
+  if (message.type === 'updateCounter') {
+    totalCasesOpened = message.caseCount;
+    updateOverallCaseCount(totalCasesOpened);
+  }
+  
+  wss.on('connection', (ws, req) => {
+    // Send the current overall case count to the client when it connects
+    OverallCaseCount.findOne().then(countData => {
+      const count = countData ? countData.count : 0;
+      ws.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
+    }).catch(error => {
+      console.error('Error fetching overall case count:', error);
+    });
+});
+
+//----------------------------------------------------------------
 
 app.post('/api/register', async (req, res) => {
   const { name, email, password } = req.body;
@@ -132,6 +182,65 @@ wss.on('connection', (ws, req) => {
 });
 
 
+
+
+//------------
+
+
+// const mongoose = require('mongoose');
+
+// // Define a schema for the overall case count
+// const overallCaseCountSchema = new mongoose.Schema({
+//   count: { type: Number, default: 0 }
+// });
+
+// // Create a model for the overall case count
+// const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
+
+// // Add a route to get the overall case count
+// app.get('/api/overallCaseCount', async (req, res) => {
+//   try {
+//     // Find the overall case count from the database
+//     const countData = await OverallCaseCount.findOne();
+//     res.json({ count: countData ? countData.count : 0 });
+//   } catch (error) {
+//     console.error('Error fetching overall case count:', error);
+//     res.status(500).json({ message: 'Error fetching overall case count' });
+//   }
+// });
+
+// // Update the overall case count in the database and broadcast it to all clients
+// function updateOverallCaseCount(count) {
+//   OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
+//     .then(() => {
+//       // Broadcast the updated count to all connected clients
+//       connections.forEach(conn => {
+//         conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
+//       });
+//     })
+//     .catch(error => {
+//       console.error('Error updating overall case count:', error);
+//     });
+// }
+
+// // Modify the 'updateCounter' event handler to update the overall case count
+// if (message.type === 'updateCounter') {
+//   totalCasesOpened = message.caseCount;
+//   updateOverallCaseCount(totalCasesOpened);
+// }
+
+// // WebSocket connection event handler
+// wss.on('connection', (ws, req) => {
+//   // Send the current overall case count to the client when it connects
+//   OverallCaseCount.findOne().then(countData => {
+//     const count = countData ? countData.count : 0;
+//     ws.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
+//   }).catch(error => {
+//     console.error('Error fetching overall case count:', error);
+//   });
+
+
+//------------
 
 
 
