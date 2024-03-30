@@ -27,16 +27,12 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 let scoresData = [];
-let totalCasesOpened = 0;
-//let totalCasesOpened = 1437;
-//---------------------------
 const overallCaseCountSchema = new mongoose.Schema({
     count: { type: Number, default: 0 },
     id: {type: Number, unique: true}
   });
 
 const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
-//----------------------------
 async function addCountIfNoneExist(){
     const existingCount = await OverallCaseCount.findOne({id: 1})
     if (!existingCount){
@@ -171,9 +167,8 @@ wss.on('connection', (ws, req) => {
             scoresData = message.scores;
             updateNotificationList(scoresData);
         } else if (message.type === 'updateCounter') {
-            totalCasesOpened = message.caseCount;
             connections.map((conn) => {
-                conn.send(JSON.stringify({type: "udpateCaseCount", count: totalCasesOpened}));
+                conn.send(JSON.stringify({type: "udpateCaseCount", count: message.caseCount}));
             });
         }
     })
