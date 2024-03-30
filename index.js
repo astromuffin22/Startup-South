@@ -127,8 +127,6 @@ wss.on('connection', (ws, req) => {//new line
     ws.on('close', (data) => {
         console.log('Socket disconnected')
     })
-
-    ws.send('this is a message that i am sending from the server to client!!!!')//stuff
 });
 
 
