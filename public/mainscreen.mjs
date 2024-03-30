@@ -26,28 +26,27 @@ const socket = new WebSocket('ws://localhost:4000');
 
 if (!storedToken) {
     document.querySelector("main").classList.add("unauthenticated");
-    return;
+} else {
+    fetch('api/authenticate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: storedToken,
+    })
+    .then(response => response.json().then(data => ({
+        data:data,
+        isOk:response.ok
+    })))
+    .then(info => {
+        if (!info.isOk) {
+            alert(info.data.message);
+        } else {
+            initPage(info.data.user.name);
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
-
-fetch('api/authenticate', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: storedToken,
-})
-.then(response => response.json().then(data => ({
-    data:data,
-    isOk:response.ok
-})))
-.then(info => {
-    if (!info.isOk) {
-        alert(info.data.message);
-    } else {
-        initPage(info.data.user.name);
-    }
-})
-.catch(error => console.error('Error:', error));
 
 function initPage(username) {
     socket.onopen = function () {
