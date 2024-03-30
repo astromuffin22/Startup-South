@@ -148,10 +148,10 @@ function updateNotificationList(scores) {
 
 function updateCounter() {
     totalCasesOpened++;
-    counterSpan.textContent = `: ${totalCasesOpened}`;
+    // counterSpan.textContent = `: ${totalCasesOpened}`;
 
     // Send the updated counter value over WebSocket connection
-    const counterData = { type: 'counter', totalCasesOpened };
+    const counterData = { type: 'updateCounter', totalCasesOpened: totalCasesOpened };
     socket.send(JSON.stringify(counterData));
 }
 
