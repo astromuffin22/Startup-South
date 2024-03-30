@@ -94,6 +94,7 @@ async function initPage() {
             if (!info.isOk) {
                 alert(info.data.message);
             } else {
+                console.log(info)
                 totalCasesOpened = info.data.count
                 counterSpan.textContent = totalCasesOpened
             }
