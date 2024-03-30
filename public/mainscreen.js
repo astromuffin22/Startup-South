@@ -22,8 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!info.isOk) {
                 alert(info.data.message);
             } else {
-                console.log(info)
-                username = info.data.username;
+                console.log(info.user.name)
+                username = info.data.user.name;
             }
         })
         .catch(error => console.error('Error:', error));
