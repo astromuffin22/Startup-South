@@ -103,24 +103,27 @@ let server = app.listen(port, () => {
 });
 
 // Create a WebSocket server that listens on the specified path
+let connections = [];
 const wss = new WebSocketServer({noServer: true});
 server.on('upgrade', (req, socket, head) => {
     wss.handleUpgrade(req, socket, head, function done(ws, req) {
         wss.emit('connection', ws, req);
     });
 }); 
-wss.on('connection', (ws, req) => {//new line
+wss.on('connection', (ws, req) => {
+    connections.push(ws)
+
     ws.on('message', (data) => {
-        console.log("SERVER RECEIVED A MESSAGE")
         const message = JSON.parse(data);
-        console.log(message);
         if (message.type === 'updateScoreboard') {
             scoresData = message.scores;
             updateNotificationList(scoresData);
         } else if (message.type === 'updateCounter') {
-            console.log("RIGGITY PIGGITY SPENCER IS A FRIGGITY")
             totalCasesOpened = message.caseCount;
             counterSpan.textContent = `: ${totalCasesOpened}`;
+            connections.map((conn) => {
+                conn.send(JSON.stringify({type: "udpateCaseCount", count: totalCasesOpened}));
+            });
         }
     })
 

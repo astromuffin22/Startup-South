@@ -25,6 +25,14 @@ const storedToken = localStorage.getItem('token');
 const socket = new WebSocket(`wss://startup.casecentral.click/ws`);
 let username;
 
+socket.onmessage = (data) => {
+    const event = JSON.parse(data);
+
+    if (event.type == "udpateCaseCount") {
+        console.log("Update case count to", event.count);
+    }
+};
+
 if (!storedToken) {
     document.querySelector("main").classList.add("unauthenticated");
 } else {
