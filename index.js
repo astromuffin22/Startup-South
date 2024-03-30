@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
-const WebSocket = require('ws');
+import WebSocket, {WebSocketServer} from 'ws';
 require('dotenv').config();
 
 const app = express();
@@ -102,17 +102,17 @@ let server = app.listen(port, () => {
 });
 
 // Create a WebSocket server that listens on the specified path
-// const wss = new WebSocketServer({noServer: true});
-// server.on('upgrade', (req, socket, head) => {
-//     wss.handleUpgrade(req, socket, head, function done(ws, req) {
-//         wss.emit('connection', ws, req);
-//     });
-// }); 
-// wss.on('connection', (ws, req) => {
-//     ws.on('message', (data) => {
-//         console.log('hllo from server') //recievd by server
-//     })
-// });
+const wss = new WebSocketServer({noServer: true});
+server.on('upgrade', (req, socket, head) => {
+    wss.handleUpgrade(req, socket, head, function done(ws, req) {
+        wss.emit('connection', ws, req);
+    });
+}); 
+wss.on('connection', (ws, req) => {
+    ws.on('message', (data) => {
+        console.log('hllo from server') //recievd by server
+    })
+});
 
 
 
