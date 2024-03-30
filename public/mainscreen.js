@@ -1,5 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
     const storedToken = localStorage.getItem('token');
+    const usernameHeader = document.querySelector('.username');
+    const yourUsernameSpan = document.querySelector('.users-pet');
+    const petsContainer = document.querySelector('.pets');
+    const mainScreenImages = document.querySelectorAll('.main-screen .picture-box img');
+    const popup = document.getElementById('popup');
+    const popupImages = document.querySelectorAll('#popup .picture-box img');
+    const indicator = document.getElementById('indicator');
+    const closePopupButton = document.getElementById('closePopupButton');
+    const counterSpan = document.getElementById('count');
+    let totalCasesOpened = 1437;
+    let isUserSpin = false;
+    let userLatestPet = null;
+    let scoresData = [];
+    const WebSocket = require('ws');
+    const petDatabase = [
+        { name: 'Yellow Teddy Bear', chance: 0.90 },
+        { name: 'Cool Teddy Bear', chance: 0.08 },
+        { name: 'Dragon', chance: 0.02 }
+    ];
 
     if (!storedToken) {
         document.querySelector("main").classList.add("unauthenticated");
@@ -27,25 +46,6 @@ document.addEventListener('DOMContentLoaded', function () {
     .catch(error => console.error('Error:', error));
 
     function loadPage(username) {
-        const usernameHeader = document.querySelector('.username');
-        const yourUsernameSpan = document.querySelector('.users-pet');
-        const petsContainer = document.querySelector('.pets');
-        const mainScreenImages = document.querySelectorAll('.main-screen .picture-box img');
-        const popup = document.getElementById('popup');
-        const popupImages = document.querySelectorAll('#popup .picture-box img');
-        const indicator = document.getElementById('indicator');
-        const closePopupButton = document.getElementById('closePopupButton');
-        const counterSpan = document.getElementById('count');
-        let totalCasesOpened = 1437;
-        let isUserSpin = false;
-        let userLatestPet = null;
-        let scoresData = [];
-        const petDatabase = [
-            { name: 'Yellow Teddy Bear', chance: 0.90 },
-            { name: 'Cool Teddy Bear', chance: 0.08 },
-            { name: 'Dragon', chance: 0.02 }
-        ];
-
         const socket = new WebSocket('ws://localhost:4000');
 
         socket.onopen = function () {
