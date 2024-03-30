@@ -10,7 +10,7 @@ const closePopupButton = document.getElementById('closePopupButton');
 const counterSpan = document.getElementById('count');
 
 // App info
-let totalCasesOpened = 1437;
+let totalCasesOpened = 0;
 let isUserSpin = false;
 let userLatestPet = null;
 let scoresData = [];
