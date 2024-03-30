@@ -90,7 +90,7 @@ function initPage(username) {
     if (yourUsernameSpan) {
         yourUsernameSpan.textContent = `${username} - Red Dragon - 2%`;
     }
-    simulateOtherPlayersOpenings();
+    // simulateOtherPlayersOpenings();
 }
 
 async function simulateSpin() {
