@@ -68,9 +68,12 @@ function initPage(username) {
         }
     };
 
+    console.log(mainScreenImages)
     if (mainScreenImages) {
+        console.log("adding event to imgs")
         mainScreenImages.forEach((image) => {
             image.addEventListener('click', () => {
+                console.log("simpulating spin")
                 simulateSpin();
             });
         });
