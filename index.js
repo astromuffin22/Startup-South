@@ -4,7 +4,8 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
-import WebSocket, {WebSocketServer} from 'ws';
+const WebSocket = require('ws');
+const { WebSocketServer } = require('ws');
 require('dotenv').config();
 
 const app = express();
