@@ -25,6 +25,28 @@ const storedToken = localStorage.getItem('token');
 const socket = new WebSocket(`wss://startup.casecentral.click/ws`);
 let username;
 
+socket.onopen = function () {
+    console.log('WebSocket connection established');
+};
+
+socket.onerror = function (error) {
+    console.error('WebSocket error:', error);
+};
+
+socket.onmessage = function (event) {
+    console.log("SERVER RECEIVED A MESSAGE")
+    const message = JSON.parse(event.data);
+    console.log(message);
+    if (message.type === 'updateScoreboard') {
+        scoresData = message.scores;
+        updateNotificationList(scoresData);
+    } else if (message.type === 'updateCounter') {
+        console.log("RIGGITY PIGGITY SPENCER IS A FRIGGITY")
+        totalCasesOpened = message.caseCount;
+        counterSpan.textContent = `: ${totalCasesOpened}`;
+    }
+};
+
 if (!storedToken) {
     document.querySelector("main").classList.add("unauthenticated");
 } else {
@@ -51,28 +73,6 @@ if (!storedToken) {
 }
 
 function initPage() {
-    socket.onopen = function () {
-        console.log('WebSocket connection established');
-    };
-    
-    socket.onerror = function (error) {
-        console.error('WebSocket error:', error);
-    };
-    
-    socket.onmessage = function (event) {
-        console.log("SERVER RECEIVED A MESSAGE")
-        const message = JSON.parse(event.data);
-        console.log(message);
-        if (message.type === 'updateScoreboard') {
-            scoresData = message.scores;
-            updateNotificationList(scoresData);
-        } else if (message.type === 'updateCounter') {
-            console.log("RIGGITY PIGGITY SPENCER IS A FRIGGITY")
-            totalCasesOpened = message.totalCasesOpened;
-            counterSpan.textContent = `: ${totalCasesOpened}`;
-        }
-    };
-
     if (mainScreenImages) {
         mainScreenImages.forEach((image) => {
             image.addEventListener('click', () => {
@@ -153,7 +153,7 @@ function updateCounter() {
     // counterSpan.textContent = `: ${totalCasesOpened}`;
 
     // Send the updated counter value over WebSocket connection
-    const counterData = { type: 'updateCounter', totalCasesOpened: totalCasesOpened };
+    const counterData = { type: 'updateCounter', caseCount: totalCasesOpened };
     socket.send(JSON.stringify(counterData));
 }
 
