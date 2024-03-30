@@ -53,24 +53,6 @@ app.get('/api/overallCaseCount', async (req, res) => {
     }
   });
 
-    function updateOverallCaseCount(count) {
-    OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
-      .then(() => {
-        // Broadcast the updated count to all connected clients
-        connections.forEach(conn => {
-          conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
-        });
-      })
-      .catch(error => {
-        console.error('Error updating overall case count:', error);
-      });
-  }
-  
-  if (message.type === 'updateCounter') {
-    totalCasesOpened = message.caseCount;
-    updateOverallCaseCount(totalCasesOpened);
-  }
-  
 //   wss.on('connection', (ws, req) => {
 //     // Send the current overall case count to the client when it connects
 //     OverallCaseCount.findOne().then(countData => {

@@ -111,6 +111,24 @@ async function simulateSpin() {
     } catch (error) {
         console.error('Error in simulateSpin:', error);
     }
+    function updateOverallCaseCount(count) {
+        OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
+          .then(() => {
+            // Broadcast the updated count to all connected clients
+            connections.forEach(conn => {
+              conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
+            });
+          })
+          .catch(error => {
+            console.error('Error updating overall case count:', error);
+          });
+      }
+      
+      if (message.type === 'updateCounter') {
+        totalCasesOpened = message.caseCount;
+        updateOverallCaseCount(totalCasesOpened);
+      }
+      
 }
 
 function addPlayerToScoreboard(playerName, pet, chance) {
