@@ -26,8 +26,7 @@ const socket = new WebSocket(`wss://startup.casecentral.click/ws`);
 let username;
 
 socket.onmessage = (data) => {
-    console.log(data);
-    const event = JSON.parse(data);
+    const event = JSON.parse(data.data);
 
     if (event.type == "udpateCaseCount") {
         console.log("Update case count to", event.count);
