@@ -37,11 +37,14 @@ const overallCaseCountSchema = new mongoose.Schema({
 
 const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
 //----------------------------
-const existingCount = await OverallCaseCount.findOne({id: 1})
-if (!existingCount){
-    const count = new OverallCaseCount({count: 0, id: 1})
-    count.save();
+async function addCountIfNoneExist(){
+    const existingCount = await OverallCaseCount.findOne({id: 1})
+    if (!existingCount){
+        const count = new OverallCaseCount({count: 0, id: 1})
+        count.save();
+    }
 }
+addCountIfNoneExist();
 
 app.use(bodyParser.json());
 app.use(cookieParser());
