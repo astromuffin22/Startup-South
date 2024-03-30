@@ -140,19 +140,16 @@ let server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-const wss = new WebSocketServer({ noServer: true });
-
+// Create a WebSocket server that listens on the specified path
+let connections = [];
+const wss = new WebSocketServer({noServer: true});
 server.on('upgrade', (req, socket, head) => {
-    wss.handleUpgrade(req, socket, head, (ws) => {
+    wss.handleUpgrade(req, socket, head, function done(ws, req) {
         wss.emit('connection', ws, req);
     });
-});
-
-wss.on('connection', (ws) => {
-    connections.push(ws);
-
-    // Send the initial totalCasesOpened to the client
-    ws.send(JSON.stringify({ type: "updateOverallCaseCount", count: totalCasesOpened }));
+}); 
+wss.on('connection', (ws, req) => {
+    connections.push(ws)
 
     ws.on('message', (data) => {
         const message = JSON.parse(data);
@@ -161,17 +158,15 @@ wss.on('connection', (ws) => {
             updateNotificationList(scoresData);
         } else if (message.type === 'updateCounter') {
             totalCasesOpened = message.caseCount;
-            // Broadcast the updated totalCasesOpened to all connected clients
-            connections.forEach(conn => {
-                conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: totalCasesOpened }));
+            connections.map((conn) => {
+                conn.send(JSON.stringify({type: "udpateCaseCount", count: totalCasesOpened}));
             });
         }
-    });
+    })
 
-    ws.on('close', () => {
-        // Handle client disconnection
-        connections = connections.filter(conn => conn !== ws);
-    });
+    ws.on('close', (data) => {
+        connections = [];
+    })
 });
 
 
