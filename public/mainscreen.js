@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (storedUser) {
         if (usernameHeader) {
-            usernameHeader.textContent = storedUser.name;
+            usernameHeader.textContent = username;
         }
         if (yourUsernameSpan) {
             yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 2%`;
