@@ -29,7 +29,7 @@ socket.onmessage = (data) => {
     const event = JSON.parse(data.data);
 
     if (event.type == "udpateCaseCount") {
-        console.log("Update case count to", event.count);
+        counterSpan.textContent = `: ${totalCasesOpened}`;
     }
 };
 
@@ -136,11 +136,9 @@ function updateNotificationList(scores) {
 
 function updateCounter() {
     totalCasesOpened++;
-    // counterSpan.textContent = `: ${totalCasesOpened}`;
 
     // Send the updated counter value over WebSocket connection
     const counterData = { type: 'updateCounter', caseCount: totalCasesOpened };
-    console.log(counterData)
     socket.send(JSON.stringify(counterData));
 }
 
