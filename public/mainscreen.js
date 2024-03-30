@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     console.log(username)
-    if(username != null) {
+    if(!username) {
         console.log("Backing out")
         return;
     } else {
@@ -213,14 +213,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (storedUser) {
-        if (usernameHeader) {
-            console.log(username);
-            usernameHeader.textContent = username;
-        }
-        if (yourUsernameSpan) {
-            yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 2%`;
-        }
-        simulateOtherPlayersOpenings();
+    if (usernameHeader) {
+        console.log(username);
+        usernameHeader.textContent = username;
     }
+    if (yourUsernameSpan) {
+        yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 2%`;
+    }
+    simulateOtherPlayersOpenings();
 });
