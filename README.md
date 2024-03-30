@@ -121,7 +121,7 @@ For this deliverable I stored logins within the database
 
 For this deliverable I used webSocket to update the counter (Total Cases Opened) on the frontend in realtime and the scoreboard updates per every open (still working on a real time update on scoreboard). But does complete the assignment fully!
 
-- **Backend listens for WebSocket connection** - done!
-- **Frontend makes WebSocket connection** - done!
-- **Data sent over WebSocket connection** - done!
-- **WebSocket data displayed** - done!
+- **Backend listens for WebSocket connection** - done!✅
+- **Frontend makes WebSocket connection** - done!✅
+- **Data sent over WebSocket connection** - done!✅
+- **WebSocket data displayed** - done!✅
