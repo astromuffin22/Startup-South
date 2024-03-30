@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const userForm = document.getElementById('userForm');
 
 // Clear token instead
-    localStorage.removeItem("user")
+    localStorage.removeItem("token")
 
     if (userForm) {
         userForm.addEventListener('submit', function (event) {
@@ -45,11 +45,10 @@ document.addEventListener('DOMContentLoaded', function () {
                         alert(info.data.message);
                     } else {
                         alert(successMessage)
-                        // Set token instead of user info
                         localStorage.setItem("token", JSON.stringify({
                             "token": info.data.token
                         }))
-                        // window.location.href = 'mainscreen.html';
+                        window.location.href = 'mainscreen.html';
                     }
                 })
                 .catch(error => console.error('Error:', error));

@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function () {
             usernameHeader.textContent = username;
         }
         if (yourUsernameSpan) {
-            yourUsernameSpan.textContent = `${storedUser.name} - Red Dragon - 2%`;
+            yourUsernameSpan.textContent = `${username} - Red Dragon - 2%`;
         }
         simulateOtherPlayersOpenings();
     }
@@ -112,10 +112,10 @@ document.addEventListener('DOMContentLoaded', function () {
             displayMostRecentPet();
             updateCounter();
             const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
-            addPlayerToScoreboard(storedUser.name, pulledPet.name, chance);
+            addPlayerToScoreboard(username, pulledPet.name, chance);
 
             // Send the spin data over WebSocket connection
-            const spinData = { type: 'spin', user: storedUser.name, pet: pulledPet.name, chance };
+            const spinData = { type: 'spin', user: username, pet: pulledPet.name, chance };
             socket.send(JSON.stringify(spinData));
         } catch (error) {
             console.error('Error in simulateSpin:', error);
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
             displayMostRecentPet();
             updateCounter();
             const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
-            addPlayerToScoreboard(storedUser.name, pulledPet.name, chance);
+            addPlayerToScoreboard(username, pulledPet.name, chance);
         } catch (error) {
             console.error('Error in simulateSpin:', error);
         }
@@ -210,7 +210,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayMostRecentPet() {
         if (petsContainer && userLatestPet) {
             const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
-            petsContainer.innerHTML = `<span class="users-pet">${storedUser.name} - ${userLatestPet} - ${(chance * 100)}%</span>`;
+            petsContainer.innerHTML = `<span class="users-pet">${username} - ${userLatestPet} - ${(chance * 100)}%</span>`;
         }
     }
 });
