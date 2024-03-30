@@ -51,12 +51,22 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 
-//---------------------------------------------------
+
 app.get('/api/overallCaseCount', async (req, res) => {
     try {
       // Find the overall case count from the database
-      const countData = await OverallCaseCount.findOne();
-      res.json({ count: countData ? countData.count : 0 });
+      const countData = await OverallCaseCount.findOne({id: 1});
+      res.json({ count: countData});
+    } catch (error) {
+      console.error('Error fetching overall case count:', error);
+      res.status(500).json({ message: 'Error fetching overall case count' });
+    }
+  });
+
+  app.post('/api/updateCaseCount', async (req, res) => {
+    const {newCount} = req.body
+    try {
+    const countData = await OverallCaseCount.findOneAndUpdate({id: 1}, {count: newCount});
     } catch (error) {
       console.error('Error fetching overall case count:', error);
       res.status(500).json({ message: 'Error fetching overall case count' });
