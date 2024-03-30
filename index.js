@@ -109,20 +109,19 @@ server.on('upgrade', (req, socket, head) => {
         wss.emit('connection', ws, req);
     });
 }); 
-wss.on('connection', (ws, req) => {
-    console.log('a client has conected');//new line
+wss.on('connection', (ws, req) => {//new line
     ws.on('message', (data) => {
         console.log("SERVER RECEIVED A MESSAGE")
-        const message = JSON.parse(data.data);
-        console.log(message);
-        if (message.type === 'updateScoreboard') {
-            scoresData = message.scores;
-            updateNotificationList(scoresData);
-        } else if (message.type === 'updateCounter') {
-            console.log("RIGGITY PIGGITY SPENCER IS A FRIGGITY")
-            totalCasesOpened = message.caseCount;
-            counterSpan.textContent = `: ${totalCasesOpened}`;
-        }
+        // const message = JSON.parse(data.data);
+        // console.log(message);
+        // if (message.type === 'updateScoreboard') {
+        //     scoresData = message.scores;
+        //     updateNotificationList(scoresData);
+        // } else if (message.type === 'updateCounter') {
+        //     console.log("RIGGITY PIGGITY SPENCER IS A FRIGGITY")
+        //     totalCasesOpened = message.caseCount;
+        //     counterSpan.textContent = `: ${totalCasesOpened}`;
+        // }
     })
 
     ws.on('close', (data) => {
