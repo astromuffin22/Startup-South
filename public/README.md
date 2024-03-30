@@ -115,3 +115,13 @@ For this deliverable I stored logins within the database
 - **Stores application data in MongoDB** - uses MongoDB.✅
 - **Stores and retrieves credentials in MongoDB** - done, does this!✅
 - **Restricts application functionality based upon authentication** - done, !✅
+
+## WebSocket deliverable
+
+
+For this deliverable I used webSocket to update the Case Count on the frontend in realtime.
+
+- **Backend listens for WebSocket connection** - done!
+- **Frontend makes WebSocket connection** - done!
+- **Data sent over WebSocket connection** - done!
+- **WebSocket data displayed** - done!
