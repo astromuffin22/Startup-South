@@ -49,24 +49,24 @@ if (!storedToken) {
 }
 
 function initPage(username) {
-    // socket.onopen = function () {
-    //     console.log('WebSocket connection established');
-    // };
+    socket.onopen = function () {
+        console.log('WebSocket connection established');
+    };
     
-    // socket.onerror = function (error) {
-    //     console.error('WebSocket error:', error);
-    // };
+    socket.onerror = function (error) {
+        console.error('WebSocket error:', error);
+    };
     
-    // socket.onmessage = function (event) {
-    //     const message = JSON.parse(event.data);
-    //     if (message.type === 'updateScoreboard') {
-    //         scoresData = message.scores;
-    //         updateNotificationList(scoresData);
-    //     } else if (message.type === 'updateCounter') {
-    //         totalCasesOpened = message.totalCasesOpened;
-    //         counterSpan.textContent = `: ${totalCasesOpened}`;
-    //     }
-    // };
+    socket.onmessage = function (event) {
+        const message = JSON.parse(event.data);
+        if (message.type === 'updateScoreboard') {
+            scoresData = message.scores;
+            updateNotificationList(scoresData);
+        } else if (message.type === 'updateCounter') {
+            totalCasesOpened = message.totalCasesOpened;
+            counterSpan.textContent = `: ${totalCasesOpened}`;
+        }
+    };
 
     if (mainScreenImages) {
         mainScreenImages.forEach((image) => {
