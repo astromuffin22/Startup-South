@@ -120,7 +120,6 @@ wss.on('connection', (ws, req) => {
             updateNotificationList(scoresData);
         } else if (message.type === 'updateCounter') {
             totalCasesOpened = message.caseCount;
-            counterSpan.textContent = `: ${totalCasesOpened}`;
             connections.map((conn) => {
                 conn.send(JSON.stringify({type: "udpateCaseCount", count: totalCasesOpened}));
             });
