@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const uuid = require('uuid');
+const WebSocket = require('ws');
 require('dotenv').config();
 
 const app = express();
@@ -25,6 +26,7 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 let scoresData = [];
+let totalCasesOpened = 1437;
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -43,7 +45,7 @@ app.post('/api/register', async (req, res) => {
     const user = new User({ name, email, password: hashedPassword, token: uuid.v4()});
 
     await user.save();
-    res.json({ message: 'Registration successful!' });
+    res.json({ message: 'Registration successful!', token: user.token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
@@ -64,34 +66,60 @@ app.post('/api/login', async (req, res) => {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
-      res.json({ message: 'Logged in!'});
+      console.log(user)
+    //   Check passing in token, user might not have all atts like that
+      res.json({ message: 'Logged in!', token: user.token});
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ message: 'ERROR' });
     }
 });
 
-// Beginnings of authenticate endpoint
-// Also need to update setting the cookie and clearing the cookie in login.js
 app.post('/api/authenticate', async (req, res) => {
     const { token } = req.body;
   
     try {
-        // Check if User.findOne can be conigured to check token
+        // see if passing in token will work or if User.findOne needs to be configured to accept token as an arg
       const user = await User.findOne({ token });
-    //   If not authenticated, send back a different code and also include user info
       if (!user) {
-        return res.status(401).json({ message: 'Invalid email or password' });
+        return res.status(401).json({ message: 'No user found' });
       }
 
-    //   Send different message if successful to check
-      res.json({ message: 'Logged in!'});
+      res.json({ message: 'User found!'});
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ message: 'ERROR' });
     }
 });
 
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on('connection', function connection(ws) {
+  ws.on('message', function incoming(message) {
+    const data = JSON.parse(message);
+    switch(data.type) {
+      case 'spin':
+        console.log('Spin data received:', data);
+        break;
+      case 'counter':
+        totalCasesOpened = data.totalCasesOpened;
+        console.log('Counter data received:', data);
+        broadcastCounter();
+        break;
+      default:
+        console.log('Unknown message type:', data.type);
+    }
+  });
+});
+
+function broadcastCounter() {
+  const counterData = { type: 'counter', totalCasesOpened };
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(counterData));
+    }
+  });
+}
 
 app.post('/api/addScore', (req, res) => {
     const data = req.body;

@@ -1,33 +1,24 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Get token from localStorage
     const storedUser = JSON.parse(localStorage.getItem('user'));
-    // Send token to a new /api/authenticate endpoint to verify if user has valid token login
-    // Save /api/authenticate response as bool, check that variable below instead of storedUser
-    // Make new /api/authenticate endpoint in index.js
-// Also need to update setting the cookie and clearing the cookie in login.js
-// Also grab user info from authenticate endpoint
+
     if (!storedUser) {
-        document.querySelector("main").classList.add("unauthenticated")
-        return
+        document.querySelector("main").classList.add("unauthenticated");
+        return;
     }
 
     const usernameHeader = document.querySelector('.username');
     const yourUsernameSpan = document.querySelector('.users-pet');
     const petsContainer = document.querySelector('.pets');
-
     const mainScreenImages = document.querySelectorAll('.main-screen .picture-box img');
     const popup = document.getElementById('popup');
     const popupImages = document.querySelectorAll('#popup .picture-box img');
     const indicator = document.getElementById('indicator');
     const closePopupButton = document.getElementById('closePopupButton');
     const counterSpan = document.getElementById('count');
-
-    
     let totalCasesOpened = 1437;
     let isUserSpin = false;
     let userLatestPet = null;
     let scoresData = [];
-
     const petDatabase = [
         { name: 'Yellow Teddy Bear', chance: 0.90 },
         { name: 'Cool Teddy Bear', chance: 0.08 },
@@ -35,11 +26,11 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     const socket = new WebSocket('ws://localhost:4000');
-    
+
     socket.onopen = function () {
         console.log('WebSocket connection established');
     };
-    
+
     socket.onerror = function (error) {
         console.error('WebSocket error:', error);
     };
@@ -55,14 +46,34 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    function openPopup() {
-        popup.style.display = 'block';
-    }
+    async function simulateSpin() {
+        isUserSpin = true;
+        openPopup();
+        const spinningInterval = 500;
+        let currentImageIndex = Math.floor(Math.random() * popupImages.length);
+        const spinIntervalId = setInterval(() => {
+            popupImages.forEach((img, index) => {
+                img.style.display = index === currentImageIndex ? 'block' : 'none';
+            });
+            updateIndicator(currentImageIndex);
+            currentImageIndex = (currentImageIndex + 1) % popupImages.length;
+        }, spinningInterval);
 
-    function closePopup() {
-        if (isUserSpin) {
-            popup.style.display = 'none';
-            isUserSpin = false;
+        try {
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            clearInterval(spinIntervalId);
+            const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
+            userLatestPet = pulledPet.name;
+            displayMostRecentPet();
+            updateCounter();
+            const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
+            addPlayerToScoreboard(storedUser.name, pulledPet.name, chance);
+
+            // Send the spin data over WebSocket connection
+            const spinData = { type: 'spin', user: storedUser.name, pet: pulledPet.name, chance };
+            socket.send(JSON.stringify(spinData));
+        } catch (error) {
+            console.error('Error in simulateSpin:', error);
         }
     }
 
@@ -89,6 +100,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateCounter() {
         totalCasesOpened++;
         counterSpan.textContent = `: ${totalCasesOpened}`;
+
+        // Send the updated counter value over WebSocket connection
+        const counterData = { type: 'counter', totalCasesOpened };
+        socket.send(JSON.stringify(counterData));
     }
 
     function updateIndicator(index) {

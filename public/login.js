@@ -46,10 +46,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         alert(successMessage)
                         // Set token instead of user info
-                        localStorage.setItem("user", JSON.stringify({
-                            "name":name,
-                            "email":email,
-                            "password":password
+                        localStorage.setItem("token", JSON.stringify({
+                            "token": info.data.token
                         }))
                         window.location.href = 'mainscreen.html';
                     }
