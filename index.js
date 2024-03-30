@@ -53,18 +53,18 @@ app.get('/api/overallCaseCount', async (req, res) => {
     }
   });
 
-//     function updateOverallCaseCount(count) {
-//     OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
-//       .then(() => {
-//         // Broadcast the updated count to all connected clients
-//         connections.forEach(conn => {
-//           conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
-//         });
-//       })
-//       .catch(error => {
-//         console.error('Error updating overall case count:', error);
-//       });
-//   }
+    function updateOverallCaseCount(count) {
+    OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
+      .then(() => {
+        // Broadcast the updated count to all connected clients
+        connections.forEach(conn => {
+          conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
+        });
+      })
+      .catch(error => {
+        console.error('Error updating overall case count:', error);
+      });
+  }
   
 //   if (message.type === 'updateCounter') {
 //     totalCasesOpened = message.caseCount;
