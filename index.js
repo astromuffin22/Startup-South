@@ -85,7 +85,7 @@ app.post('/api/authenticate', async (req, res) => {
         return res.status(401).json({ message: 'No user found' });
       }
 
-      res.json({ message: 'User found!'});
+      res.json({ message: 'User found!', username: user.name});
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ message: 'ERROR' });

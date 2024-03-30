@@ -1,8 +1,33 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    const storedToken = localStorage.getItem('token');
+    let username;
 
-    if (!storedUser) {
+    if (!storedToken) {
         document.querySelector("main").classList.add("unauthenticated");
+        return;
+    } else {
+        fetch('api/authenticate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: storedToken,
+        })
+        .then(response => response.json().then(data => ({
+            data:data,
+            isOk:response.ok
+        })))
+        .then(info => {
+            if (!info.isOk) {
+                alert(info.data.message);
+            } else {
+                username = info.data.username;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    if(!username) {
         return;
     }
 
