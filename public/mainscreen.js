@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!info.isOk) {
                 alert(info.data.message);
             } else {
+                console.log(info)
                 username = info.data.username;
             }
         })

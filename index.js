@@ -66,8 +66,6 @@ app.post('/api/login', async (req, res) => {
         return res.status(401).json({ message: 'Invalid email or password' });
       }
 
-      console.log(user)
-    //   Check passing in token, user might not have all atts like that
       res.json({ message: 'Logged in!', token: user.token});
     } catch (error) {
       console.error('Login error:', error);
@@ -77,19 +75,17 @@ app.post('/api/login', async (req, res) => {
 
 app.post('/api/authenticate', async (req, res) => {
     const { token } = req.body;
-    console.log(`AUTHENTICATE API: token is ${token}`);
+    
     try {
         // see if passing in token will work or if User.findOne needs to be configured to accept token as an arg
       const user = await User.findOne({ token });
-      console.log(`AUTHENTICATE API: user is ${user}`);
+      
       if (!user) {
-        console.log(`AUTHENTICATE API: no user, cya later alligator`);
         return res.status(401).json({ message: 'No user found' });
       }
 
       console.log(`AUTHENTICATE API: user is ${user}`);
-      console.log(`AUTHENTICATE API: username is ${user}.name`);
-      res.json({ message: 'User found!', username: user.name});
+      res.json({ message: 'User found!', username: user});
     } catch (error) {
       console.error('Login error:', error);
       res.status(500).json({ message: 'ERROR' });
