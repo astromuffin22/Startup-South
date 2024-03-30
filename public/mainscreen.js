@@ -68,12 +68,9 @@ function initPage(username) {
         }
     };
 
-    console.log(mainScreenImages)
     if (mainScreenImages) {
-        console.log("adding event to imgs")
         mainScreenImages.forEach((image) => {
             image.addEventListener('click', () => {
-                console.log("simpulating spin")
                 simulateSpin();
             });
         });
@@ -177,6 +174,17 @@ async function simulateOtherPlayersOpenings() {
         addPlayerToScoreboard(player.name, player.pet, player.chance);
         updateCounter();
     }));
+}
+
+function openPopup() {
+    popup.style.display = 'block';
+}
+
+function closePopup() {
+    if (isUserSpin) {
+        popup.style.display = 'none';
+        isUserSpin = false;
+    }
 }
 
 function getRandomPetFromImage(imageId) {
