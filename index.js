@@ -30,15 +30,9 @@ let scoresData = [];
 let totalCasesOpened = 0;
 //let totalCasesOpened = 1437;
 //---------------------------
-OverallCaseCount.findOne().then(countData => {
-    totalCasesOpened = countData ? countData.count : 0;
-}).catch(error => {
-    console.error('Error fetching initial overall case count:', error);
-});
-
 const overallCaseCountSchema = new mongoose.Schema({
     count: { type: Number, default: 0 }
-});
+  });
 
 const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
 //----------------------------
@@ -51,13 +45,14 @@ app.use(express.static('public'));
 //---------------------------------------------------
 app.get('/api/overallCaseCount', async (req, res) => {
     try {
-        const countData = await OverallCaseCount.findOne();
-        res.json({ count: countData ? countData.count : 0 });
+      // Find the overall case count from the database
+      const countData = await OverallCaseCount.findOne();
+      res.json({ count: countData ? countData.count : 0 });
     } catch (error) {
-        console.error('Error fetching overall case count:', error);
-        res.status(500).json({ message: 'Error fetching overall case count' });
+      console.error('Error fetching overall case count:', error);
+      res.status(500).json({ message: 'Error fetching overall case count' });
     }
-});
+  });
 
 //   wss.on('connection', (ws, req) => {
 //     // Send the current overall case count to the client when it connects
