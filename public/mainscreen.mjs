@@ -22,7 +22,7 @@ const petDatabase = [
 
 // Auth
 const storedToken = localStorage.getItem('token');
-const socket = new WebSocket('ws://localhost:4000');
+const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
 if (!storedToken) {
     document.querySelector("main").classList.add("unauthenticated");
