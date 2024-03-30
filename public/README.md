@@ -121,7 +121,7 @@ For this deliverable I stored logins within the database
 
 For this deliverable I used webSocket to update the Scoreboard on the frontend in realtime. (its a bit buggy still fixing it, so its off by one request but still works. Just open a case on one frontened, then on another to update to see both cases!)
 
-- **Backend listens for WebSocket connection** - done!
-- **Frontend makes WebSocket connection** - done!
-- **Data sent over WebSocket connection** - done!
-- **WebSocket data displayed** - done!
+- **Backend listens for WebSocket connection** - done!✅
+- **Frontend makes WebSocket connection** - done!✅
+- **Data sent over WebSocket connection** - done!✅
+- **WebSocket data displayed** - done!✅
