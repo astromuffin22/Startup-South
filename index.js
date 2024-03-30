@@ -121,13 +121,14 @@ wss.on('connection', (ws, req) => {
         } else if (message.type === 'updateCounter') {
             totalCasesOpened = message.caseCount;
             connections.map((conn) => {
+                console.log(JSON.stringify({type: "udpateCaseCount", count: totalCasesOpened}))
                 conn.send(JSON.stringify({type: "udpateCaseCount", count: totalCasesOpened}));
             });
         }
     })
 
     ws.on('close', (data) => {
-        console.log('Socket disconnected')
+        connections = [];
     })
 });
 
