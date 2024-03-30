@@ -77,14 +77,18 @@ app.post('/api/login', async (req, res) => {
 
 app.post('/api/authenticate', async (req, res) => {
     const { token } = req.body;
-  
+    console.log(`AUTHENTICATE API: token is ${token}`);
     try {
         // see if passing in token will work or if User.findOne needs to be configured to accept token as an arg
       const user = await User.findOne({ token });
+      console.log(`AUTHENTICATE API: user is ${user}`);
       if (!user) {
+        console.log(`AUTHENTICATE API: no user, cya later alligator`);
         return res.status(401).json({ message: 'No user found' });
       }
 
+      console.log(`AUTHENTICATE API: user is ${user}`);
+      console.log(`AUTHENTICATE API: username is ${user}.name`);
       res.json({ message: 'User found!', username: user.name});
     } catch (error) {
       console.error('Login error:', error);
