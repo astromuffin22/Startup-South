@@ -91,24 +91,6 @@ app.post('/api/authenticate', async (req, res) => {
     }
 });
 
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    const data = JSON.parse(message);
-    switch(data.type) {
-      case 'spin':
-        console.log('Spin data received:', data);
-        break;
-      case 'counter':
-        totalCasesOpened = data.totalCasesOpened;
-        console.log('Counter data received:', data);
-        broadcastCounter();
-        break;
-      default:
-        console.log('Unknown message type:', data.type);
-    }
-  });
-});
-
 function broadcastCounter() {
   const counterData = { type: 'counter', totalCasesOpened };
   wss.clients.forEach(client => {
@@ -140,3 +122,24 @@ wss.on('connection', (ws, req) => {
         console.log('hllo from server') //recievd by server
     })
 });
+
+
+
+
+// wss.on('connection', function connection(ws) {
+//     ws.on('message', function incoming(message) {
+//       const data = JSON.parse(message);
+//       switch(data.type) {
+//         case 'spin':
+//           console.log('Spin data received:', data);
+//           break;
+//         case 'counter':
+//           totalCasesOpened = data.totalCasesOpened;
+//           console.log('Counter data received:', data);
+//           broadcastCounter();
+//           break;
+//         default:
+//           console.log('Unknown message type:', data.type);
+//       }
+//     });
+//   });
