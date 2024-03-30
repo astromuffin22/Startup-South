@@ -65,6 +65,7 @@ function initPage() {
             scoresData = message.scores;
             updateNotificationList(scoresData);
         } else if (message.type === 'updateCounter') {
+            console.log("RIGGITY PIGGITY SPENCER IS A FRIGGITY")
             totalCasesOpened = message.totalCasesOpened;
             counterSpan.textContent = `: ${totalCasesOpened}`;
         }
