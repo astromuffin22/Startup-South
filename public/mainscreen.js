@@ -176,6 +176,14 @@ function updateNotificationList(scores) {
 
 function updateCounter() {
     totalCasesOpened++;
+    fetch('/api/updateCaseCount', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({newCount: totalCasesOpened})
+    })
+        .catch(error => console.error('Error:', error));
 
     // Send the updated counter value over WebSocket connection
     const counterData = { type: 'updateCounter', caseCount: totalCasesOpened };
