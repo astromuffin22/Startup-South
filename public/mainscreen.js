@@ -10,7 +10,7 @@ const closePopupButton = document.getElementById('closePopupButton');
 const counterSpan = document.getElementById('count');
 
 // App info
-let totalCasesOpened = 0;
+let totalCasesOpened;
 let isUserSpin = false;
 let userLatestPet = null;
 let scoresData = [];
@@ -58,7 +58,7 @@ if (!storedToken) {
     .catch(error => console.error('Error:', error));
 }
 
-function initPage() {
+async function initPage() {
     if (mainScreenImages) {
         mainScreenImages.forEach((image) => {
             image.addEventListener('click', () => {
@@ -79,6 +79,27 @@ function initPage() {
     if (yourUsernameSpan) {
         yourUsernameSpan.textContent = `${username} - Red Dragon - 2%`;
     }
+
+    fetch('/api/overallCaseCount', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json().then(data => ({
+            data:data,
+            isOk:response.ok
+        })))
+        .then(info => {
+            if (!info.isOk) {
+                alert(info.data.message);
+            } else {
+                totalCasesOpened = info.data.count
+                counterSpan.textContent = totalCasesOpened
+            }
+        })
+        .catch(error => console.error('Error:', error));
+
 }
 
 async function simulateSpin() {
@@ -110,37 +131,7 @@ async function simulateSpin() {
     } catch (error) {
         console.error('Error in simulateSpin:', error);
     }
-    function updateOverallCaseCount(count) {
-        OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
-          .then(() => {
-            // Broadcast the updated count to all connected clients
-            connections.forEach(conn => {
-              conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
-            });
-          })
-          .catch(error => {
-            console.error('Error updating overall case count:', error);
-          });
-      }
-      
-      if (message.type === 'updateCounter') {
-        totalCasesOpened = message.caseCount;
-        updateOverallCaseCount(totalCasesOpened);
-      }
-      
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-    fetch('/api/overallCaseCount')
-        .then(response => response.json())
-        .then(data => {
-            // Assuming you have a DOM element with id 'total-cases' to display the count
-            document.getElementById('total-cases').textContent = data.count;
-        })
-        .catch(error => {
-            console.error('Error fetching overall case count:', error);
-        });
-});
 
 function addPlayerToScoreboard(playerName, pet, chance) {
     fetch('/api/addScore', {
