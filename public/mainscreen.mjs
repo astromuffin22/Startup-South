@@ -23,6 +23,26 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector("main").classList.add("unauthenticated");
         return;
     }
+    
+    const socket = new WebSocket('ws://localhost:4000');
+    socket.onopen = function () {
+        console.log('WebSocket connection established');
+    };
+
+    socket.onerror = function (error) {
+        console.error('WebSocket error:', error);
+    };
+
+    socket.onmessage = function (event) {
+        const message = JSON.parse(event.data);
+        if (message.type === 'updateScoreboard') {
+            scoresData = message.scores;
+            updateNotificationList(scoresData);
+        } else if (message.type === 'updateCounter') {
+            totalCasesOpened = message.totalCasesOpened;
+            counterSpan.textContent = `: ${totalCasesOpened}`;
+        }
+    };
 
     fetch('api/authenticate', {
         method: 'POST',
@@ -45,26 +65,6 @@ document.addEventListener('DOMContentLoaded', function () {
     .catch(error => console.error('Error:', error));
 
     function loadPage(username) {
-        const socket = new WebSocket('ws://localhost:4000');
-
-        socket.onopen = function () {
-            console.log('WebSocket connection established');
-        };
-
-        socket.onerror = function (error) {
-            console.error('WebSocket error:', error);
-        };
-
-        socket.onmessage = function (event) {
-            const message = JSON.parse(event.data);
-            if (message.type === 'updateScoreboard') {
-                scoresData = message.scores;
-                updateNotificationList(scoresData);
-            } else if (message.type === 'updateCounter') {
-                totalCasesOpened = message.totalCasesOpened;
-                counterSpan.textContent = `: ${totalCasesOpened}`;
-            }
-        };
 
         if (mainScreenImages) {
             mainScreenImages.forEach((image) => {
