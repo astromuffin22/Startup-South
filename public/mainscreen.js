@@ -79,7 +79,6 @@ function initPage() {
     if (yourUsernameSpan) {
         yourUsernameSpan.textContent = `${username} - Red Dragon - 2%`;
     }
-    // simulateOtherPlayersOpenings();
 }
 
 async function simulateSpin() {
@@ -195,25 +194,6 @@ function updateIndicator(index) {
     indicator.textContent = index + 1;
 }
 
-async function simulateOtherPlayersOpenings() {
-    const players = [
-        { name: 'Bob', pet: 'Yellow Teddy Bear', chance: 0.1 },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear', chance: 0.9 },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear', chance: 0.5 },
-        { name: 'Bob', pet: 'Yellow Teddy Bear', chance: 0.1 },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear', chance: 0.9 },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear', chance: 0.5 },
-        { name: 'Bob', pet: 'Yellow Teddy Bear', chance: 0.1 },
-        { name: 'Lenicha_likes_you', pet: 'Lame Teddy Bear', chance: 0.9 },
-        { name: 'Your_not_cool', pet: 'Cool Teddy Bear', chance: 0.5 },
-    ];
-
-    await Promise.all(players.map(async (player, index) => {
-        await new Promise(resolve => setTimeout(resolve, index * 1000));
-        addPlayerToScoreboard(player.name, player.pet, player.chance);
-        updateCounter();
-    }));
-}
 
 function openPopup() {
     popup.style.display = 'block';
