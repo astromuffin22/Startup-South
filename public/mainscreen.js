@@ -60,7 +60,9 @@ function initPage() {
     };
     
     socket.onmessage = function (event) {
+        console.log("SERVER RECEIVED A MESSAGE")
         const message = JSON.parse(event.data);
+        console.log(message);
         if (message.type === 'updateScoreboard') {
             scoresData = message.scores;
             updateNotificationList(scoresData);
