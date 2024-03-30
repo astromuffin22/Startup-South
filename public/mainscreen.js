@@ -29,7 +29,7 @@ socket.onmessage = (data) => {
     const event = JSON.parse(data.data);
 
     if (event.type == "udpateCaseCount") {
-        counterSpan.textContent = `: ${totalCasesOpened}`;
+        counterSpan.textContent = totalCasesOpened;
     }
 };
 
