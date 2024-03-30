@@ -27,11 +27,18 @@ const userSchema = new mongoose.Schema({
 const User = mongoose.model('User', userSchema);
 
 let scoresData = [];
+let totalCasesOpened = 0;
 //let totalCasesOpened = 1437;
 //---------------------------
+OverallCaseCount.findOne().then(countData => {
+    totalCasesOpened = countData ? countData.count : 0;
+}).catch(error => {
+    console.error('Error fetching initial overall case count:', error);
+});
+
 const overallCaseCountSchema = new mongoose.Schema({
     count: { type: Number, default: 0 }
-  });
+});
 
 const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
 //----------------------------
@@ -44,14 +51,13 @@ app.use(express.static('public'));
 //---------------------------------------------------
 app.get('/api/overallCaseCount', async (req, res) => {
     try {
-      // Find the overall case count from the database
-      const countData = await OverallCaseCount.findOne();
-      res.json({ count: countData ? countData.count : 0 });
+        const countData = await OverallCaseCount.findOne();
+        res.json({ count: countData ? countData.count : 0 });
     } catch (error) {
-      console.error('Error fetching overall case count:', error);
-      res.status(500).json({ message: 'Error fetching overall case count' });
+        console.error('Error fetching overall case count:', error);
+        res.status(500).json({ message: 'Error fetching overall case count' });
     }
-  });
+});
 
 //   wss.on('connection', (ws, req) => {
 //     // Send the current overall case count to the client when it connects
@@ -134,16 +140,19 @@ let server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-// Create a WebSocket server that listens on the specified path
-let connections = [];
-const wss = new WebSocketServer({noServer: true});
+const wss = new WebSocketServer({ noServer: true });
+
 server.on('upgrade', (req, socket, head) => {
-    wss.handleUpgrade(req, socket, head, function done(ws, req) {
+    wss.handleUpgrade(req, socket, head, (ws) => {
         wss.emit('connection', ws, req);
     });
-}); 
-wss.on('connection', (ws, req) => {
-    connections.push(ws)
+});
+
+wss.on('connection', (ws) => {
+    connections.push(ws);
+
+    // Send the initial totalCasesOpened to the client
+    ws.send(JSON.stringify({ type: "updateOverallCaseCount", count: totalCasesOpened }));
 
     ws.on('message', (data) => {
         const message = JSON.parse(data);
@@ -152,15 +161,17 @@ wss.on('connection', (ws, req) => {
             updateNotificationList(scoresData);
         } else if (message.type === 'updateCounter') {
             totalCasesOpened = message.caseCount;
-            connections.map((conn) => {
-                conn.send(JSON.stringify({type: "udpateCaseCount", count: totalCasesOpened}));
+            // Broadcast the updated totalCasesOpened to all connected clients
+            connections.forEach(conn => {
+                conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: totalCasesOpened }));
             });
         }
-    })
+    });
 
-    ws.on('close', (data) => {
-        connections = [];
-    })
+    ws.on('close', () => {
+        // Handle client disconnection
+        connections = connections.filter(conn => conn !== ws);
+    });
 });
 
 

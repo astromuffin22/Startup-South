@@ -131,6 +131,18 @@ async function simulateSpin() {
       
 }
 
+window.addEventListener('DOMContentLoaded', () => {
+    fetch('/api/overallCaseCount')
+        .then(response => response.json())
+        .then(data => {
+            // Assuming you have a DOM element with id 'total-cases' to display the count
+            document.getElementById('total-cases').textContent = data.count;
+        })
+        .catch(error => {
+            console.error('Error fetching overall case count:', error);
+        });
+});
+
 function addPlayerToScoreboard(playerName, pet, chance) {
     fetch('/api/addScore', {
         method: 'POST',
