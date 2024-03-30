@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector("main").classList.add("unauthenticated");
         return;
     } else {
+        console.log("running auth api...")
         fetch('api/authenticate', {
             method: 'POST',
             headers: {
