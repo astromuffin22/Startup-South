@@ -22,6 +22,7 @@ const petDatabase = [
 
 // Auth
 const storedToken = localStorage.getItem('token');
+const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
 const socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
 
 if (!storedToken) {
