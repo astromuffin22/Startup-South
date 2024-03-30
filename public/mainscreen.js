@@ -22,7 +22,7 @@ const petDatabase = [
 
 // Auth
 const storedToken = localStorage.getItem('token');
-// const socket = new WebSocket(`wss://startup.casecentral.click/ws`);
+const socket = new WebSocket(`wss://startup.casecentral.click/ws`);
 
 if (!storedToken) {
     document.querySelector("main").classList.add("unauthenticated");
