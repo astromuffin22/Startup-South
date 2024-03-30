@@ -66,10 +66,10 @@ app.get('/api/overallCaseCount', async (req, res) => {
       });
   }
   
-//   if (message.type === 'updateCounter') {
-//     totalCasesOpened = message.caseCount;
-//     updateOverallCaseCount(totalCasesOpened);
-//   }
+  if (message.type === 'updateCounter') {
+    totalCasesOpened = message.caseCount;
+    updateOverallCaseCount(totalCasesOpened);
+  }
   
 //   wss.on('connection', (ws, req) => {
 //     // Send the current overall case count to the client when it connects
