@@ -56,7 +56,7 @@ app.get('/api/overallCaseCount', async (req, res) => {
     try {
       // Find the overall case count from the database
       const countData = await OverallCaseCount.findOne({id: 1});
-      res.json({ count: countData});
+      res.json({ count: countData.count});
     } catch (error) {
       console.error('Error fetching overall case count:', error);
       res.status(500).json({ message: 'Error fetching overall case count' });
