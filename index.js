@@ -110,13 +110,10 @@ server.on('upgrade', (req, socket, head) => {
     });
 }); 
 wss.on('connection', (ws, req) => {
-    ws.on('open', (data) => {
-        console.log('Socket established successfully!')
-    })
-
+    console.log('a client has conected');//new line
     ws.on('message', (data) => {
         console.log("SERVER RECEIVED A MESSAGE")
-        const message = JSON.parse(event.data);
+        const message = JSON.parse(data.data);
         console.log(message);
         if (message.type === 'updateScoreboard') {
             scoresData = message.scores;
