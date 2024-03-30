@@ -22,8 +22,7 @@ const petDatabase = [
 
 // Auth
 const storedToken = localStorage.getItem('token');
-const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-const socket = new WebSocket(`${protocol}://${window.location.host}/8080`);
+const socket = new WebSocket(`wss://https://startup.casecentral.click/ws`);
 
 if (!storedToken) {
     document.querySelector("main").classList.add("unauthenticated");
