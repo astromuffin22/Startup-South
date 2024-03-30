@@ -74,7 +74,6 @@ function initPage() {
     }
 
     if (usernameHeader) {
-        console.log(username);
         usernameHeader.textContent = username;
     }
     if (yourUsernameSpan) {
@@ -115,11 +114,31 @@ async function simulateSpin() {
 }
 
 function addPlayerToScoreboard(playerName, pet, chance) {
-    const message = {
-        type: 'addScore',
-        data: { playerName, pet, chance }
-    };
-    socket.send(JSON.stringify(message));
+    fetch('/api/addScore', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ playerName, pet, chance }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Server response:', data);
+        if (data && Array.isArray(data.scores)) {
+            scoresData = data.scores;
+            updateNotificationList(scoresData);
+        } else {
+            console.log('Invalid scores data:', data);
+        }
+    })
+    .catch(error => {
+        console.error('Error adding score:', error);
+    });
 }
 
 function updateNotificationList(scores) {
