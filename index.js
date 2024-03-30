@@ -91,15 +91,6 @@ app.post('/api/authenticate', async (req, res) => {
     }
 });
 
-function broadcastCounter() {
-  const counterData = { type: 'counter', totalCasesOpened };
-  wss.clients.forEach(client => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(counterData));
-    }
-  });
-}
-
 app.post('/api/addScore', (req, res) => {
     const data = req.body;
     scoresData.push(data);
@@ -111,20 +102,30 @@ let server = app.listen(port, () => {
 });
 
 // Create a WebSocket server that listens on the specified path
-const wss = new WebSocketServer({noServer: true});
-server.on('upgrade', (req, socket, head) => {
-    wss.handleUpgrade(req, socket, head, function done(ws, req) {
-        wss.emit('connection', ws, req);
-    });
-}); 
-wss.on('connection', (ws, req) => {
-    ws.on('message', (data) => {
-        console.log('hllo from server') //recievd by server
-    })
-});
+// const wss = new WebSocketServer({noServer: true});
+// server.on('upgrade', (req, socket, head) => {
+//     wss.handleUpgrade(req, socket, head, function done(ws, req) {
+//         wss.emit('connection', ws, req);
+//     });
+// }); 
+// wss.on('connection', (ws, req) => {
+//     ws.on('message', (data) => {
+//         console.log('hllo from server') //recievd by server
+//     })
+// });
 
 
 
+
+
+// function broadcastCounter() {
+//     const counterData = { type: 'counter', totalCasesOpened };
+//     wss.clients.forEach(client => {
+//       if (client.readyState === WebSocket.OPEN) {
+//         client.send(JSON.stringify(counterData));
+//       }
+//     });
+//   }
 
 // wss.on('connection', function connection(ws) {
 //     ws.on('message', function incoming(message) {
