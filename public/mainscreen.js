@@ -1,3 +1,5 @@
+const WebSocket = require('ws');
+
 document.addEventListener('DOMContentLoaded', function () {
     const storedToken = localStorage.getItem('token');
     const usernameHeader = document.querySelector('.username');
@@ -13,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
     let isUserSpin = false;
     let userLatestPet = null;
     let scoresData = [];
-    const WebSocket = require('ws');
     const petDatabase = [
         { name: 'Yellow Teddy Bear', chance: 0.90 },
         { name: 'Cool Teddy Bear', chance: 0.08 },
