@@ -156,33 +156,6 @@ function updateIndicator(index) {
     indicator.textContent = index + 1;
 }
 
-async function simulateSpin() {
-    isUserSpin = true;
-    openPopup();
-    const spinningInterval = 500;
-    let currentImageIndex = Math.floor(Math.random() * popupImages.length);
-    const spinIntervalId = setInterval(() => {
-        popupImages.forEach((img, index) => {
-            img.style.display = index === currentImageIndex ? 'block' : 'none';
-        });
-        updateIndicator(currentImageIndex);
-        currentImageIndex = (currentImageIndex + 1) % popupImages.length;
-    }, spinningInterval);
-
-    try {
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        clearInterval(spinIntervalId);
-        const pulledPet = getRandomPetFromImage(`picture-${currentImageIndex + 1}`);
-        userLatestPet = pulledPet.name;
-        displayMostRecentPet();
-        updateCounter();
-        const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
-        addPlayerToScoreboard(username, pulledPet.name, chance);
-    } catch (error) {
-        console.error('Error in simulateSpin:', error);
-    }
-}
-
 async function simulateOtherPlayersOpenings() {
     const players = [
         { name: 'Bob', pet: 'Yellow Teddy Bear', chance: 0.1 },
