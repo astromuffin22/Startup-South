@@ -110,8 +110,16 @@ server.on('upgrade', (req, socket, head) => {
     });
 }); 
 wss.on('connection', (ws, req) => {
+    ws.on('open', (data) => {
+        console.log('Socket established successfully!')
+    })
+
     ws.on('message', (data) => {
-        console.log('hllo from server') //recievd by server
+        console.log('hllo from server')
+    })
+
+    ws.on('close', (data) => {
+        console.log('Socket disconnected')
     })
 });
 
