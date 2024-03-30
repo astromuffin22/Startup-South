@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if(!username) {
         return;
+    } else {
+        console.log(username)
     }
 
     const usernameHeader = document.querySelector('.username');
@@ -210,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (storedUser) {
         if (usernameHeader) {
+            console.log(username);
             usernameHeader.textContent = username;
         }
         if (yourUsernameSpan) {
