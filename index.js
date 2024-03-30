@@ -11,7 +11,7 @@ const app = express();
 const port = 4000;
 
 // Create a WebSocket server that listens on the specified path
-const wss = new WebSocket.Server({ path: '/ws', port: 403 });
+const wss = new WebSocket.Server({ path: '/ws', port: 8080 });
 
 mongoose.connect("mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/case_central", {
   useNewUrlParser: true,
