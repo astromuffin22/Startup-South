@@ -23,6 +23,7 @@ const petDatabase = [
 // Auth
 const storedToken = localStorage.getItem('token');
 const socket = new WebSocket(`wss://startup.casecentral.click/ws`);
+let username;
 
 if (!storedToken) {
     document.querySelector("main").classList.add("unauthenticated");
@@ -42,13 +43,14 @@ if (!storedToken) {
         if (!info.isOk) {
             alert(info.data.message);
         } else {
-            initPage(info.data.user.name);
+            username = info.data.user.name;
+            initPage();
         }
     })
     .catch(error => console.error('Error:', error));
 }
 
-function initPage(username) {
+function initPage() {
     socket.onopen = function () {
         console.log('WebSocket connection established');
     };
