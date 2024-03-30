@@ -10,6 +10,9 @@ require('dotenv').config();
 const app = express();
 const port = 4000;
 
+// Create a WebSocket server that listens on the specified path
+const wss = new WebSocket.Server({ path: '/ws', port: 8080 });
+
 mongoose.connect("mongodb+srv://astromuffin22:astromuffin22@cluster0.1c0kdgj.mongodb.net/case_central", {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -90,8 +93,6 @@ app.post('/api/authenticate', async (req, res) => {
       res.status(500).json({ message: 'ERROR' });
     }
 });
-
-const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
