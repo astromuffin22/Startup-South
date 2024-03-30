@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         localStorage.setItem("token", JSON.stringify({
                             "token": info.data.token
                         }))
-                        window.location.href = 'mainscreen.html';
+                        // window.location.href = 'mainscreen.html';
                     }
                 })
                 .catch(error => console.error('Error:', error));
