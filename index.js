@@ -112,7 +112,7 @@ server.on('upgrade', (req, socket, head) => {
 wss.on('connection', (ws, req) => {//new line
     ws.on('message', (data) => {
         console.log("SERVER RECEIVED A MESSAGE")
-        const message = JSON.parse(data.data);
+        const message = JSON.parse(data);
         console.log(message);
         if (message.type === 'updateScoreboard') {
             scoresData = message.scores;
