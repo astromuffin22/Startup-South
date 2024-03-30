@@ -31,14 +31,15 @@ let totalCasesOpened = 0;
 //let totalCasesOpened = 1437;
 //---------------------------
 const overallCaseCountSchema = new mongoose.Schema({
-    count: { type: Number, default: 0 }
+    count: { type: Number, default: 0 },
+    id: {type: Number, unique: true}
   });
 
 const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
 //----------------------------
-console.log(OverallCaseCount.findOne())
-if (!OverallCaseCount.findOne()){
-    const count = new OverallCaseCount({count: 0})
+const existingCount = await OverallCaseCount.findOne({id: 1})
+if (!existingCount){
+    const count = new OverallCaseCount({count: 0, id: 1})
     count.save();
 }
 
