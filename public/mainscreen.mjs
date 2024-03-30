@@ -1,4 +1,4 @@
-import WebSocket from 'ws';
+const WebSocket = require('ws');
 
 document.addEventListener('DOMContentLoaded', function () {
     const storedToken = localStorage.getItem('token');
