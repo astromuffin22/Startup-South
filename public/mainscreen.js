@@ -26,7 +26,6 @@ const socket = new WebSocket(`wss://startup.casecentral.click/ws`);
 let username;
 
 socket.onmessage = (data) => {
-    console.log('GOT A MESSAGE')
     const event = JSON.parse(data.data);
 
     if (event.type == "udpateCaseCount") {
@@ -128,7 +127,6 @@ async function simulateSpin() {
         const chance = petDatabase.find(p => p.name === userLatestPet)?.chance || 0;
         addPlayerToScoreboard(username, pulledPet.name, chance);
 
-        // Send the spin data over WebSocket connection
         const spinData = { type: 'spin', user: username, pet: pulledPet.name, chance };
         socket.send(JSON.stringify(spinData));
     } catch (error) {
@@ -187,7 +185,6 @@ function updateCounter() {
     })
         .catch(error => console.error('Error:', error));
 
-    // Send the updated counter value over WebSocket connection
     const counterData = { type: 'updateCounter', caseCount: totalCasesOpened };
     socket.send(JSON.stringify(counterData));
 }

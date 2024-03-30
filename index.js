@@ -50,7 +50,6 @@ app.use(express.static('public'));
 
 app.get('/api/overallCaseCount', async (req, res) => {
     try {
-      // Find the overall case count from the database
       const countData = await OverallCaseCount.findOne({id: 1});
       res.json({ count: countData.count});
     } catch (error) {
@@ -69,17 +68,6 @@ app.get('/api/overallCaseCount', async (req, res) => {
     }
   });
 
-//   wss.on('connection', (ws, req) => {
-//     // Send the current overall case count to the client when it connects
-//     OverallCaseCount.findOne().then(countData => {
-//       const count = countData ? countData.count : 0;
-//       ws.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
-//     }).catch(error => {
-//       console.error('Error fetching overall case count:', error);
-//     });
-// });
-
-//----------------------------------------------------------------
 
 app.post('/api/register', async (req, res) => {
   const { name, email, password } = req.body;
@@ -126,7 +114,6 @@ app.post('/api/authenticate', async (req, res) => {
     const { token } = req.body;
     
     try {
-        // see if passing in token will work or if User.findOne needs to be configured to accept token as an arg
       const user = await User.findOne({ token });
       
       if (!user) {
@@ -150,7 +137,6 @@ let server = app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-// Create a WebSocket server that listens on the specified path
 let connections = [];
 const wss = new WebSocketServer({noServer: true});
 server.on('upgrade', (req, socket, head) => {
@@ -177,93 +163,3 @@ wss.on('connection', (ws, req) => {
         connections = [];
     })
 });
-
-
-
-
-//------------
-
-
-// const mongoose = require('mongoose');
-
-// // Define a schema for the overall case count
-// const overallCaseCountSchema = new mongoose.Schema({
-//   count: { type: Number, default: 0 }
-// });
-
-// // Create a model for the overall case count
-// const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
-
-// // Add a route to get the overall case count
-// app.get('/api/overallCaseCount', async (req, res) => {
-//   try {
-//     // Find the overall case count from the database
-//     const countData = await OverallCaseCount.findOne();
-//     res.json({ count: countData ? countData.count : 0 });
-//   } catch (error) {
-//     console.error('Error fetching overall case count:', error);
-//     res.status(500).json({ message: 'Error fetching overall case count' });
-//   }
-// });
-
-// // Update the overall case count in the database and broadcast it to all clients
-// function updateOverallCaseCount(count) {
-//   OverallCaseCount.findOneAndUpdate({}, { count: count }, { upsert: true })
-//     .then(() => {
-//       // Broadcast the updated count to all connected clients
-//       connections.forEach(conn => {
-//         conn.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
-//       });
-//     })
-//     .catch(error => {
-//       console.error('Error updating overall case count:', error);
-//     });
-// }
-
-// // Modify the 'updateCounter' event handler to update the overall case count
-// if (message.type === 'updateCounter') {
-//   totalCasesOpened = message.caseCount;
-//   updateOverallCaseCount(totalCasesOpened);
-// }
-
-// // WebSocket connection event handler
-// wss.on('connection', (ws, req) => {
-//   // Send the current overall case count to the client when it connects
-//   OverallCaseCount.findOne().then(countData => {
-//     const count = countData ? countData.count : 0;
-//     ws.send(JSON.stringify({ type: "updateOverallCaseCount", count: count }));
-//   }).catch(error => {
-//     console.error('Error fetching overall case count:', error);
-//   });
-
-
-//------------
-
-
-
-// function broadcastCounter() {
-//     const counterData = { type: 'counter', totalCasesOpened };
-//     wss.clients.forEach(client => {
-//       if (client.readyState === WebSocket.OPEN) {
-//         client.send(JSON.stringify(counterData));
-//       }
-//     });
-//   }
-
-// wss.on('connection', function connection(ws) {
-//     ws.on('message', function incoming(message) {
-//       const data = JSON.parse(message);
-//       switch(data.type) {
-//         case 'spin':
-//           console.log('Spin data received:', data);
-//           break;
-//         case 'counter':
-//           totalCasesOpened = data.totalCasesOpened;
-//           console.log('Counter data received:', data);
-//           broadcastCounter();
-//           break;
-//         default:
-//           console.log('Unknown message type:', data.type);
-//       }
-//     });
-//   });
