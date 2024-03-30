@@ -5,29 +5,28 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!storedToken) {
         document.querySelector("main").classList.add("unauthenticated");
         return;
-    } else {
-        console.log("running auth api...")
-        fetch('api/authenticate', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: storedToken,
-        })
-        .then(response => response.json().then(data => ({
-            data:data,
-            isOk:response.ok
-        })))
-        .then(info => {
-            if (!info.isOk) {
-                alert(info.data.message);
-            } else {
-                console.log(info.data.user.name)
-                username = info.data.user.name;
-            }
-        })
-        .catch(error => console.error('Error:', error));
     }
+
+    console.log("running auth api...")
+    fetch('api/authenticate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: storedToken,
+    })
+    .then(response => response.json().then(data => ({
+        data:data,
+        isOk:response.ok
+    })))
+    .then(info => {
+        if (!info.isOk) {
+            alert(info.data.message);
+        } else {
+            username = info.data.user.name;
+        }
+    })
+    .catch(error => console.error('Error:', error));
 
     console.log(username)
     if(!username) {
