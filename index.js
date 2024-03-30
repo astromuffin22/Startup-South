@@ -36,6 +36,7 @@ const overallCaseCountSchema = new mongoose.Schema({
 
 const OverallCaseCount = mongoose.model('OverallCaseCount', overallCaseCountSchema);
 //----------------------------
+console.log(OverallCaseCount.findOne())
 if (!OverallCaseCount.findOne()){
     const count = new OverallCaseCount({count: 0})
     count.save();
