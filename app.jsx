@@ -30,3 +30,27 @@ function Header() {
 export default Header;
 
 
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Header from './components/Header';
+import Main from './components/Main';
+import Footer from './components/Footer';
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Main} />
+          {/* Add routes for other pages */}
+        </Switch>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+// export default App;
+
