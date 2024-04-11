@@ -52,5 +52,24 @@ function App() {
   );
 }
 
-// export default App;
 
+
+// Idead for adding styling to the HMTL aspect
+// export default App;
+// Header.js
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const headerStyle = {
+  // Add your CSS styles here
+};
+
+function Header() {
+  return (
+    <header style={headerStyle}>
+      {/* Header content */}
+    </header>
+  );
+}
+
+// export default Header;
