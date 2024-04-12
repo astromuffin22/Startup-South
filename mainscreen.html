@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Central</title>
+    <link rel="icon" type="image/x-icon" href="Case-Central-logos.ico">
+    <link rel="stylesheet" href="mainscreen.css">
+    <script src="mainscreen.js" type="module" defer></script>
+</head>
+<body>
+    <header>
+        <div class="title-logo">
+            <p class="username">Username</p>
+            <h1> Case Central </h1>
+            <div id="picture" class="picture-box">
+                <img width="100px" length="100px" src="Case Central-logos.jpeg" alt="random" />
+            </div>
+        </div>
+        <nav>
+            <h1>Welcome to Case Central!</h1>
+            <menu>
+                <a id="login-btn" href="index.html">Login</a>
+                <a id="mainpage-btn" href="mainscreen.html">MainPage</a>
+                <a id="instructions-btn" href="instructions.html">Instructions</a>
+            </menu>
+            
+        </nav>
+    </header>
+    <main>
+        <h2>YOU MUST LOG IN</h2>
+        <div class="main-contents">
+            <div class="main-screen">
+                <div class="pets">
+                    <span class="users-pet">Your Username - Red Dragon - 0.001%</span>
+                </div>
+                    <p class="rarest-pet">Recent Pet's Pulled!</p>
+                    <div class="notification-wrapper">
+                        <ol class="notification">
+                            <li class="player-name"> Bob pulled Red Dragon - 0.001%</li>
+                            <li class="player-name">Lenicha_likes_you pulled Yellow Teddy Bear - 0.01%</li>
+                            <li class="player-name">Your_not_cool pulled Lame Teddy Bear - 15%</li>
+                        </ol>
+                    </div>
+            </div>
+            <div class="main-screen">
+                <h2>
+                    Current Case's Available!
+                </h2>
+                <div id="picture" class="picture-box">
+                    <img width="350" length="350" src="Pet_Case__1-removebg-preview.png" alt="random" />
+                </div>
+            </div>
+            <div class="main-screen">
+                <p class="number-of-cases-announcment">Total Number of Cases Opened World Wide
+                    <span id="count">: 0</span>
+                </p>
+            </div>
+        </div>
+    </main>
+    <section id="popup" style="display: none;">
+        <div class="cases">
+            <span class="case-chosen">GOLDEN RETREIVER CASE</span>
+            <div class="POP-UP-SLIDER">
+                <div id="picture-2" class="picture-box" data-pet="Yellow Teddy Bear">
+                    <img width="150" length="150" src="https://www.plushinarush.com/cdn/shop/products/wholesale-plush-in-a-rush-14105-28323965796454_1024x1024.jpg?v=1628163635" alt="random" />
+            </div>
+            <div id="picture-3" class="picture-box" data-pet="Dragon">
+                <img width="150" length="150" src="https://cdn.pixabay.com/photo/2023/01/07/09/20/ai-generated-7702855_1280.jpg" alt="random" />
+            </div>
+            <div id="picture-1" class="picture-box" data-pet="Cool Teddy Bear">
+                <img width="150" length="150" src="https://www.creativefabrica.com/wp-content/uploads/2022/12/29/Teddy-Bear-SVG-Cool-Teddy-Bear-Cute-Teddy-Bear-Sunglasses-55218087-1.png" alt="random" />
+            </div>
+            </div>
+            <div id="indicator">1</div>
+            <button class="close-popup" id="closePopupButton">
+                Close ➡️
+            </button>            
+        </div>
+    </section>
+    <footer>
+        <span class="text-reset">Author Name(s)</span>
+        - Spencer South
+        <br />
+        <span class="text-reset">Git Hub Repo! - </span>
+        <a href="https://github.com/astromuffin22/startup.git">GitHub</a>
+    </footer>
+</body>
+</html>
