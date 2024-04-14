@@ -125,3 +125,12 @@ For this deliverable I used webSocket to update the Scoreboard on the frontend i
 - **Frontend makes WebSocket connection** - done!✅
 - **Data sent over WebSocket connection** - done!✅
 - **WebSocket data displayed** - done!✅
+
+## React deliverable
+
+For this deliverable I could only figure out budling and transpiling vite and the components and the code behind it all
+
+- [x] **Bundled and transpiled** - done!✅
+- [x] **Components** - Login, voting list, vote are all components.✅
+- [x] **Router** - Routing between login and voting components.❌
+- [x] **Hooks** - Vue uses class properties instead of `UseState` to track changes in vote state.❌
